@@ -565,6 +565,104 @@ function saveForum(forum) {
   localStorage.setItem("ikeis_forum", JSON.stringify(forum));
 }
 
+// 6. SEED & STORAGE CONFIG WEB (KAS SOLIDARITAS, KORWIL, & PIN ADMIN)
+const SEED_CONFIG = {
+  adminPin: "ikeis2026",
+  kas: {
+    namaBank: "Bank Syariah Indonesia (BSI)",
+    noRekening: "719 8820 192",
+    atasNama: "IKEIS Jabodetabek Peduli",
+    kontakKonfirmasi: "0812-8911-2233 (H. Zulkifli Damanik)"
+  },
+  korwil: [
+    { id: "korwil-dki", wilayah: "Korwil DKI Jakarta", nama: "H. Zulkifli Damanik", lokasi: "Tebet, Jakarta Selatan", wa: "6281289112233" },
+    { id: "korwil-bogor", wilayah: "Korwil Bogor Raya", nama: "Bambang S. Purba, S.H.", lokasi: "Pajajaran, Kota Bogor", wa: "6281512345670" },
+    { id: "korwil-depok", wilayah: "Korwil Kota Depok", nama: "Dr. Hj. Nurasyiah Saragih", lokasi: "Sukmajaya, Kota Depok", wa: "6281377889900" },
+    { id: "korwil-tangerang", wilayah: "Korwil Tangerang Raya", nama: "Rahmad H. Sinaga", lokasi: "Cipondoh / Tangsel", wa: "6281299887766" },
+    { id: "korwil-bekasi", wilayah: "Korwil Bekasi Raya", nama: "M. Faisal Purba, S.T.", lokasi: "Harapan Indah, Bekasi", wa: "6281765432100" }
+  ]
+};
+
+function getStoredConfig() {
+  const data = localStorage.getItem("ikeis_config");
+  if (!data) {
+    localStorage.setItem("ikeis_config", JSON.stringify(SEED_CONFIG));
+    return SEED_CONFIG;
+  }
+  try {
+    const parsed = JSON.parse(data);
+    if (!parsed.adminPin) parsed.adminPin = "ikeis2026";
+    if (!parsed.kas) parsed.kas = SEED_CONFIG.kas;
+    if (!parsed.korwil || parsed.korwil.length === 0) parsed.korwil = SEED_CONFIG.korwil;
+    return parsed;
+  } catch (e) {
+    return SEED_CONFIG;
+  }
+}
+
+function saveConfig(config) {
+  localStorage.setItem("ikeis_config", JSON.stringify(config));
+}
+
+function getStoredAgenda() {
+  const data = localStorage.getItem("ikeis_agenda");
+  if (!data) {
+    localStorage.setItem("ikeis_agenda", JSON.stringify(SEED_AGENDA));
+    return SEED_AGENDA;
+  }
+  try {
+    return JSON.parse(data);
+  } catch (e) {
+    return SEED_AGENDA;
+  }
+}
+
+function saveAgenda(agenda) {
+  localStorage.setItem("ikeis_agenda", JSON.stringify(agenda));
+}
+
+// Render Data Kas Solidaritas (Baitul Mal) di Halaman Depan
+function renderBaitulMalInfo() {
+  const config = getStoredConfig();
+  const bankEl = document.getElementById("kasBankNama");
+  const noRekEl = document.getElementById("kasNoRekening");
+  const anEl = document.getElementById("kasAtasNama");
+  const waEl = document.getElementById("kasKontakKonfirmasi");
+  const btnCopy = document.getElementById("btnCopyRekening");
+
+  if (bankEl && config.kas) bankEl.textContent = config.kas.namaBank;
+  if (noRekEl && config.kas) noRekEl.textContent = config.kas.noRekening;
+  if (anEl && config.kas) anEl.textContent = config.kas.atasNama.startsWith("a.n.") ? config.kas.atasNama : `a.n. ${config.kas.atasNama}`;
+  if (waEl && config.kas) waEl.textContent = config.kas.kontakKonfirmasi;
+  if (btnCopy && config.kas) {
+    const cleanRek = config.kas.noRekening.replace(/\s+/g, '');
+    btnCopy.onclick = () => copyRekening(cleanRek);
+  }
+}
+
+// Render Kontak 5 Korwil di Halaman Depan
+function renderKorwilCards() {
+  const container = document.getElementById("korwilCardsContainer");
+  if (!container) return;
+
+  const config = getStoredConfig();
+  const korwils = config.korwil || [];
+
+  container.innerHTML = korwils.map(k => {
+    const cleanWa = (k.wa || "").replace(/[^0-9]/g, "");
+    return `
+      <div class="bg-[#14060a] p-5 rounded-2xl border border-red-900/40 shadow-sm space-y-2">
+        <div class="text-xs font-bold uppercase text-amber-400 tracking-wider">${k.wilayah}</div>
+        <div class="font-bold text-white text-sm">${k.nama}</div>
+        <div class="text-xs text-slate-400">${k.lokasi}</div>
+        <a href="https://api.whatsapp.com/send?phone=${cleanWa}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-bold text-red-400 hover:text-red-300 pt-1">
+          <span>WhatsApp Korwil</span> &rarr;
+        </a>
+      </div>
+    `;
+  }).join("");
+}
+
 // =====================================================================
 // INISIALISASI SAAT DOM READY
 // =====================================================================
@@ -575,8 +673,11 @@ document.addEventListener("DOMContentLoaded", () => {
   renderMembersDirectory();
   renderForumFeed();
   renderAgendaCards();
+  renderBaitulMalInfo();
+  renderKorwilCards();
   initRegistrationForm();
   updateLiveStatsHeader();
+  populateAdminDropdowns();
 
   // Set sample KTA photo preview in Bagian Pendaftaran
   const sampleFoto = document.getElementById("sampleKtaFoto");
@@ -1552,7 +1653,9 @@ function renderAgendaCards() {
   const container = document.getElementById("agendaCardsContainer");
   if (!container) return;
 
-  container.innerHTML = SEED_AGENDA.map(ag => {
+  const agenda = getStoredAgenda();
+
+  container.innerHTML = agenda.map(ag => {
     return `
       <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
         <div class="p-6">
@@ -1577,6 +1680,11 @@ function renderAgendaCards() {
               <svg class="w-4 h-4 text-rose-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
               <div><strong>Tempat:</strong> ${ag.lokasi}</div>
             </div>
+            ${ag.penceramah ? `
+            <div class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-red-900 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+              <div><strong>Penceramah / Narasumber:</strong> ${ag.penceramah}</div>
+            </div>` : ''}
             <div class="flex items-start gap-2">
               <svg class="w-4 h-4 text-amber-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
               <div><strong>Tema / Bahasan:</strong> "${ag.tema}"</div>
@@ -1585,7 +1693,7 @@ function renderAgendaCards() {
         </div>
 
         <div class="p-6 pt-0">
-          <button onclick="handleRsvpAgenda('${ag.id}', '${ag.judul}')" class="w-full py-2.5 px-4 bg-red-800 hover:bg-red-900 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
+          <button onclick="handleRsvpAgenda('${ag.id}', '${(ag.judul || '').replace(/'/g, "\\'")}')" class="w-full py-2.5 px-4 bg-red-800 hover:bg-red-900 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             Konfirmasi Hadir (RSVP)
           </button>
@@ -1599,9 +1707,11 @@ function handleRsvpAgenda(agendaId, agendaJudul) {
   const nama = prompt(`Konfirmasi Kehadiran pada:\n${agendaJudul}\n\nMasukkan Nama Lengkap Anda:`);
   if (!nama) return;
 
-  const ag = SEED_AGENDA.find(a => a.id === agendaId);
+  const agenda = getStoredAgenda();
+  const ag = agenda.find(a => a.id === agendaId);
   if (ag) {
-    ag.pesertaTerdaftar += 1;
+    ag.pesertaTerdaftar = (parseInt(ag.pesertaTerdaftar, 10) || 0) + 1;
+    saveAgenda(agenda);
     renderAgendaCards();
     alert(`Terima kasih Bapak/Ibu ${nama}! Kehadiran Anda telah tercatat. Panitia sekretariat akan menghubungi untuk konfirmasi titik kumpul.`);
   }
@@ -1614,4 +1724,1138 @@ function copyRekening(noRekening) {
   }).catch(() => {
     prompt("Silakan salin nomor rekening berikut:", noRekening);
   });
+}
+
+// =====================================================================
+// PORTAL ADMINISTRATOR & PENGURUS IKEIS JABODETABEK
+// =====================================================================
+
+let activeAdminTab = "members";
+let adminMemberFotoUploadBase64 = "";
+
+// Cek apakah admin sedang dalam sesi aktif
+function isAdminLoggedIn() {
+  return sessionStorage.getItem("ikeis_admin_session") === "true";
+}
+
+// Buka Modal Login Admin
+function openAdminLoginModal() {
+  if (isAdminLoggedIn()) {
+    openAdminPanel();
+    return;
+  }
+  const modal = document.getElementById("modalAdminLogin");
+  const errEl = document.getElementById("adminLoginError");
+  const pinInput = document.getElementById("adminPinInput");
+  if (errEl) errEl.classList.add("hidden");
+  if (pinInput) {
+    pinInput.value = "";
+    setTimeout(() => pinInput.focus(), 150);
+  }
+  if (modal) modal.classList.remove("hidden");
+}
+
+function closeAdminLoginModal() {
+  const modal = document.getElementById("modalAdminLogin");
+  if (modal) modal.classList.add("hidden");
+}
+
+function toggleAdminPinVisibility() {
+  const pinInput = document.getElementById("adminPinInput");
+  if (pinInput) {
+    pinInput.type = pinInput.type === "password" ? "text" : "password";
+  }
+}
+
+// Proses Login Admin
+function handleAdminLogin(e) {
+  if (e) e.preventDefault();
+  const pinInput = document.getElementById("adminPinInput");
+  const errEl = document.getElementById("adminLoginError");
+  const enteredPin = (pinInput?.value || "").trim();
+
+  const config = getStoredConfig();
+  const validPin = config.adminPin || "ikeis2026";
+
+  if (enteredPin === validPin) {
+    sessionStorage.setItem("ikeis_admin_session", "true");
+    closeAdminLoginModal();
+    openAdminPanel();
+  } else {
+    if (errEl) {
+      errEl.classList.remove("hidden");
+      errEl.textContent = "PIN salah! Masukkan PIN yang benar (Default: ikeis2026).";
+    }
+    if (pinInput) {
+      pinInput.select();
+      pinInput.focus();
+    }
+  }
+}
+
+function handleAdminLogout() {
+  sessionStorage.removeItem("ikeis_admin_session");
+  closeAdminPanel();
+  alert("Anda telah berhasil keluar (logout) dari Panel Administrator.");
+}
+
+// Buka Panel Dashboard Admin
+function openAdminPanel() {
+  const panel = document.getElementById("modalAdminPanel");
+  if (!panel) return;
+  panel.classList.remove("hidden");
+  switchAdminTab(activeAdminTab || "members");
+  updateAdminStatsBadges();
+}
+
+function closeAdminPanel() {
+  const panel = document.getElementById("modalAdminPanel");
+  if (panel) panel.classList.add("hidden");
+}
+
+// Ganti Tab Navigasi Admin
+function switchAdminTab(tabName) {
+  activeAdminTab = tabName;
+  const tabs = ["members", "forum", "agenda", "kas", "system"];
+
+  tabs.forEach(t => {
+    const btn = document.getElementById(`btnTabAdmin${t.charAt(0).toUpperCase() + t.slice(1)}`);
+    const content = document.getElementById(`panelAdmin${t.charAt(0).toUpperCase() + t.slice(1)}`);
+    if (btn) {
+      if (t === tabName) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    }
+    if (content) {
+      if (t === tabName) {
+        content.classList.remove("hidden");
+      } else {
+        content.classList.add("hidden");
+      }
+    }
+  });
+
+  // Render konten sesuai tab aktif
+  if (tabName === "members") renderAdminMembersTable();
+  if (tabName === "forum") renderAdminForumList();
+  if (tabName === "agenda") renderAdminAgendaList();
+  if (tabName === "kas") {
+    renderAdminKasForm();
+    renderAdminKorwilList();
+  }
+  updateAdminStatsBadges();
+}
+
+// Update Ringkasan Angka di Header Panel
+function updateAdminStatsBadges() {
+  const members = getStoredMembers();
+  const forum = getStoredForum();
+  const agenda = getStoredAgenda();
+
+  const statM = document.getElementById("adminStatMembers");
+  const statF = document.getElementById("adminStatForum");
+  const statA = document.getElementById("adminStatAgenda");
+
+  const badgeM = document.getElementById("badgeTabMembers");
+  const badgeF = document.getElementById("badgeTabForum");
+  const badgeA = document.getElementById("badgeTabAgenda");
+
+  if (statM) statM.textContent = members.length;
+  if (statF) statF.textContent = forum.length;
+  if (statA) statA.textContent = agenda.length;
+
+  if (badgeM) badgeM.textContent = members.length;
+  if (badgeF) badgeF.textContent = forum.length;
+  if (badgeA) badgeA.textContent = agenda.length;
+}
+
+// Inisialisasi Dropdown Wilayah & Kecamatan untuk Admin
+function populateAdminDropdowns() {
+  const domSelect = document.getElementById("adminMemberDomisili");
+  const filterWilayah = document.getElementById("adminMemberFilterWilayah");
+  const kecSelect = document.getElementById("adminMemberKecamatan");
+
+  if (domSelect && domSelect.options.length <= 1) {
+    domSelect.innerHTML = "";
+    WILAYAH_JABODETABEK.forEach(wil => {
+      const opt = document.createElement("option");
+      opt.value = wil;
+      opt.textContent = wil;
+      domSelect.appendChild(opt);
+    });
+  }
+
+  if (filterWilayah && filterWilayah.options.length <= 1) {
+    WILAYAH_JABODETABEK.forEach(wil => {
+      const opt = document.createElement("option");
+      opt.value = wil;
+      opt.textContent = wil;
+      filterWilayah.appendChild(opt);
+    });
+  }
+
+  if (kecSelect && kecSelect.options.length <= 1) {
+    kecSelect.innerHTML = "";
+    KECAMATAN_SIMALUNGUN.forEach(kec => {
+      const opt = document.createElement("option");
+      opt.value = kec;
+      opt.textContent = `Kecamatan ${kec}`;
+      kecSelect.appendChild(opt);
+    });
+  }
+}
+
+// =====================================================================
+// TAB 1: CRUD DATA ANGGOTA & KTA
+// =====================================================================
+
+function renderAdminMembersTable() {
+  const tbody = document.getElementById("adminMembersTableBody");
+  if (!tbody) return;
+
+  const members = getStoredMembers();
+  const search = (document.getElementById("adminMemberSearch")?.value || "").toLowerCase().trim();
+  const filterWil = document.getElementById("adminMemberFilterWilayah")?.value || "";
+
+  const filtered = members.filter(m => {
+    const matchSearch = !search ||
+      m.nama.toLowerCase().includes(search) ||
+      m.marga.toLowerCase().includes(search) ||
+      m.id.toLowerCase().includes(search) ||
+      m.domisili.toLowerCase().includes(search) ||
+      m.kecamatanAsal.toLowerCase().includes(search);
+    const matchWil = !filterWil || m.domisili === filterWil;
+    return matchSearch && matchWil;
+  });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="8" class="text-center py-8 text-slate-400">
+          Tidak ada data anggota yang cocok dengan filter pencarian.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(m => {
+    const fotoSrc = m.fotoDiri || generateSamplePasfoto(m.nama, m.jenisKelamin);
+    const countFotos = (m.fotoKegiatan || []).length;
+    const cleanWa = (m.telepon || "").replace(/[^0-9]/g, "");
+
+    return `
+      <tr class="transition">
+        <td>
+          <div class="kta-photo-box" style="width: 38px; height: 50px;">
+            <img src="${fotoSrc}" alt="${m.nama}" class="w-full h-full object-cover" />
+          </div>
+        </td>
+        <td>
+          <span class="font-mono text-xs font-bold text-amber-300 bg-slate-800 px-2 py-0.5 rounded border border-slate-700">
+            ${m.id}
+          </span>
+        </td>
+        <td>
+          <div class="font-bold text-white text-xs sm:text-sm">${m.nama}</div>
+          <div class="text-[11px] text-amber-300 font-medium">Marga ${m.marga} &bull; ${m.jenisKelamin || 'Laki-laki'}</div>
+        </td>
+        <td>
+          <div class="text-xs text-slate-200 font-medium">${m.domisili}</div>
+          <div class="text-[11px] text-slate-400">Kec. ${m.kecamatanAsal}${m.nagoriAsal && m.nagoriAsal !== '-' ? ' (' + m.nagoriAsal + ')' : ''}</div>
+        </td>
+        <td>
+          <div class="text-xs text-slate-300 truncate max-w-[140px]">${m.profesi}</div>
+        </td>
+        <td>
+          <a href="https://api.whatsapp.com/send?phone=${cleanWa.startsWith('0') ? '62' + cleanWa.slice(1) : cleanWa}" target="_blank" class="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-mono text-xs">
+            <span>📱</span> ${m.telepon}
+          </a>
+        </td>
+        <td>
+          <span class="admin-badge ${countFotos > 0 ? 'bg-amber-950 text-amber-300 border border-amber-700' : 'bg-slate-800 text-slate-400 border border-slate-700'}">
+            ${countFotos} / 3 Foto
+          </span>
+        </td>
+        <td class="text-right">
+          <div class="flex items-center justify-end gap-1.5">
+            <button onclick="adminEditMember('${m.id}')" class="p-1.5 rounded-lg bg-blue-900/60 hover:bg-blue-800 text-blue-200 text-xs transition border border-blue-700" title="Edit Data Anggota">
+              ✏️ Edit
+            </button>
+            <button onclick="viewMemberKta('${m.id}')" class="p-1.5 rounded-lg bg-amber-900/60 hover:bg-amber-800 text-amber-200 text-xs transition border border-amber-700" title="Lihat & Cetak KTA">
+              🪪 KTA
+            </button>
+            <button onclick="openMemberSpace('${m.id}')" class="p-1.5 rounded-lg bg-red-900/60 hover:bg-red-800 text-red-200 text-xs transition border border-red-700" title="Buka Space Silaturahmi (Foto & Status)">
+              📸 Space
+            </button>
+            <button onclick="adminDeleteMember('${m.id}')" class="p-1.5 rounded-lg bg-rose-950 hover:bg-rose-900 text-rose-300 text-xs transition border border-rose-800" title="Hapus Anggota">
+              🗑️
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+// Buka Modal Tambah Anggota
+function openAdminAddMemberModal() {
+  populateAdminDropdowns();
+  adminMemberFotoUploadBase64 = "";
+
+  const form = document.getElementById("formAdminMember");
+  if (form) form.reset();
+
+  document.getElementById("adminMemberFormId").value = "";
+  document.getElementById("adminMemberFormTitle").textContent = "Tambah Anggota Baru";
+  document.getElementById("adminMemberFormBadge").textContent = "Tambah Data Baru";
+
+  const preview = document.getElementById("adminMemberFotoPreview");
+  if (preview) {
+    preview.src = generateSamplePasfoto("Calon Anggota", "Laki-laki");
+  }
+
+  const modal = document.getElementById("modalAdminMemberForm");
+  if (modal) modal.classList.remove("hidden");
+}
+
+// Buka Modal Edit Anggota
+function adminEditMember(memberId) {
+  populateAdminDropdowns();
+  const members = getStoredMembers();
+  const member = members.find(m => m.id === memberId);
+  if (!member) {
+    alert("Data anggota tidak ditemukan.");
+    return;
+  }
+
+  adminMemberFotoUploadBase64 = member.fotoDiri || "";
+
+  document.getElementById("adminMemberFormId").value = member.id;
+  document.getElementById("adminMemberFormTitle").textContent = `Edit Anggota: ${member.nama}`;
+  document.getElementById("adminMemberFormBadge").textContent = `ID KTA: ${member.id}`;
+
+  document.getElementById("adminMemberNama").value = member.nama;
+  document.getElementById("adminMemberMarga").value = member.marga;
+  document.getElementById("adminMemberGender").value = member.jenisKelamin || "Laki-laki";
+  document.getElementById("adminMemberDomisili").value = member.domisili;
+  document.getElementById("adminMemberKecamatan").value = member.kecamatanAsal;
+  document.getElementById("adminMemberNagori").value = member.nagoriAsal || "";
+  document.getElementById("adminMemberProfesi").value = member.profesi;
+  document.getElementById("adminMemberTelepon").value = member.telepon;
+  document.getElementById("adminMemberEmail").value = member.email || "";
+  document.getElementById("adminMemberStatus").value = member.status || "Aktif";
+  document.getElementById("adminMemberAlamat").value = member.alamat || "";
+  document.getElementById("adminMemberStatusSilaturahmi").value = member.statusSilaturahmi || "";
+
+  const preview = document.getElementById("adminMemberFotoPreview");
+  if (preview) {
+    preview.src = member.fotoDiri || generateSamplePasfoto(member.nama, member.jenisKelamin);
+  }
+
+  const modal = document.getElementById("modalAdminMemberForm");
+  if (modal) modal.classList.remove("hidden");
+}
+
+function closeAdminMemberFormModal() {
+  const modal = document.getElementById("modalAdminMemberForm");
+  if (modal) modal.classList.add("hidden");
+  adminMemberFotoUploadBase64 = "";
+}
+
+// Upload Pasfoto di Form Admin
+async function handleAdminMemberFotoUpload(files) {
+  if (!files || files.length === 0) return;
+  try {
+    const compressed = await compressImage(files[0], 600, 800, 0.78);
+    adminMemberFotoUploadBase64 = compressed;
+    const preview = document.getElementById("adminMemberFotoPreview");
+    if (preview) preview.src = compressed;
+  } catch (err) {
+    console.error("Gagal memproses pasfoto:", err);
+    alert("Gagal memproses foto. Silakan coba kembali.");
+  }
+}
+
+// Gunakan Pasfoto Adat Generator
+function adminMemberUseSampleFoto() {
+  const nama = document.getElementById("adminMemberNama").value || "Warga IKEIS";
+  const gender = document.getElementById("adminMemberGender").value || "Laki-laki";
+  const sample = generateSamplePasfoto(nama, gender);
+  adminMemberFotoUploadBase64 = sample;
+  const preview = document.getElementById("adminMemberFotoPreview");
+  if (preview) preview.src = sample;
+}
+
+// Simpan Data Anggota (Add / Update)
+function handleAdminSaveMember(e) {
+  if (e) e.preventDefault();
+
+  const editId = document.getElementById("adminMemberFormId").value;
+  const nama = document.getElementById("adminMemberNama").value.trim();
+  const marga = document.getElementById("adminMemberMarga").value.trim();
+  const gender = document.getElementById("adminMemberGender").value;
+  const domisili = document.getElementById("adminMemberDomisili").value;
+  const kecamatan = document.getElementById("adminMemberKecamatan").value;
+  const nagori = document.getElementById("adminMemberNagori").value.trim();
+  const profesi = document.getElementById("adminMemberProfesi").value.trim();
+  const telepon = document.getElementById("adminMemberTelepon").value.trim();
+  const email = document.getElementById("adminMemberEmail").value.trim();
+  const status = document.getElementById("adminMemberStatus").value;
+  const alamat = document.getElementById("adminMemberAlamat").value.trim();
+  const statusSilaturahmi = document.getElementById("adminMemberStatusSilaturahmi").value.trim();
+
+  if (!nama || !marga || !profesi || !telepon) {
+    alert("Mohon lengkapi Nama, Marga, Profesi, dan Nomor Telepon.");
+    return;
+  }
+
+  const finalFoto = adminMemberFotoUploadBase64 || generateSamplePasfoto(nama, gender);
+  const members = getStoredMembers();
+
+  if (editId) {
+    // Mode Edit
+    const index = members.findIndex(m => m.id === editId);
+    if (index !== -1) {
+      members[index] = {
+        ...members[index],
+        nama: nama,
+        marga: marga,
+        jenisKelamin: gender,
+        fotoDiri: finalFoto,
+        domisili: domisili,
+        kecamatanAsal: kecamatan,
+        nagoriAsal: nagori,
+        profesi: profesi,
+        telepon: telepon,
+        email: email,
+        status: status,
+        alamat: alamat,
+        statusSilaturahmi: statusSilaturahmi,
+        statusWaktu: statusSilaturahmi ? "Diperbarui oleh Pengurus" : members[index].statusWaktu
+      };
+    }
+  } else {
+    // Mode Tambah Baru
+    const newId = `IKEIS-JBD-2026-${String(members.length + 1).padStart(3, '0')}`;
+    const newMember = {
+      id: newId,
+      nama: nama,
+      marga: marga,
+      jenisKelamin: gender,
+      fotoDiri: finalFoto,
+      domisili: domisili,
+      kecamatanAsal: kecamatan,
+      nagoriAsal: nagori,
+      profesi: profesi,
+      telepon: telepon,
+      email: email,
+      status: status,
+      alamat: alamat,
+      bidangMinat: "Ukhuwah & Silaturahmi",
+      tanggalGabung: new Date().toISOString().split("T")[0],
+      statusSilaturahmi: statusSilaturahmi,
+      statusWaktu: statusSilaturahmi ? "Baru saja" : "",
+      fotoKegiatan: []
+    };
+    members.unshift(newMember);
+  }
+
+  saveMembers(members);
+  closeAdminMemberFormModal();
+
+  // Re-render live website & admin table
+  renderMembersDirectory();
+  renderAdminMembersTable();
+  updateLiveStatsHeader();
+  updateAdminStatsBadges();
+
+  alert(editId ? `Data anggota ${nama} berhasil diperbarui!` : `Anggota baru ${nama} berhasil ditambahkan!`);
+}
+
+// Hapus Anggota
+function adminDeleteMember(memberId) {
+  const members = getStoredMembers();
+  const target = members.find(m => m.id === memberId);
+  if (!target) return;
+
+  const confirmed = confirm(
+    `PERINGATAN HAPUS DATA:\n\nApakah Anda yakin ingin menghapus data anggota berikut?\nNama: ${target.nama}\nNo. KTA: ${target.id}\n\nTindakan ini tidak dapat dibatalkan.`
+  );
+
+  if (!confirmed) return;
+
+  const updated = members.filter(m => m.id !== memberId);
+  saveMembers(updated);
+
+  renderMembersDirectory();
+  renderAdminMembersTable();
+  updateLiveStatsHeader();
+  updateAdminStatsBadges();
+
+  alert(`Data anggota ${target.nama} (${target.id}) telah dihapus dari sistem.`);
+}
+
+// =====================================================================
+// TAB 2: CRUD DINDING FORUM & WARTA
+// =====================================================================
+
+function renderAdminForumList() {
+  const container = document.getElementById("adminForumListContainer");
+  if (!container) return;
+
+  const forum = getStoredForum();
+
+  if (forum.length === 0) {
+    container.innerHTML = `
+      <div class="p-8 text-center bg-slate-800/40 rounded-2xl border border-slate-700 text-slate-400">
+        Belum ada postingan warta di forum silaturahmi.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = forum.map(post => {
+    const repliesCount = (post.replies || []).length;
+    return `
+      <div class="p-4 sm:p-5 bg-slate-800/80 rounded-2xl border border-slate-700 space-y-3 transition hover:border-slate-600">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-red-950 text-amber-300 border border-red-800">
+              ${post.kategori}
+            </span>
+            <span class="text-xs text-slate-400">Korwil ${post.korwil}</span>
+            <span class="text-xs text-slate-500">•</span>
+            <span class="text-xs text-slate-400">${post.waktu}</span>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <button onclick="adminEditPost('${post.id}')" class="px-2.5 py-1 rounded-lg bg-blue-900/60 hover:bg-blue-800 text-blue-200 text-xs font-semibold border border-blue-700 transition">
+              ✏️ Edit Post
+            </button>
+            <button onclick="adminManageReplies('${post.id}')" class="px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold border border-slate-600 transition">
+              💬 Tanggapan (${repliesCount})
+            </button>
+            <button onclick="adminDeletePost('${post.id}')" class="px-2.5 py-1 rounded-lg bg-rose-950 hover:bg-rose-900 text-rose-300 text-xs font-semibold border border-rose-800 transition">
+              🗑️ Hapus
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white text-sm sm:text-base">${post.judul}</h4>
+          <p class="text-xs sm:text-sm text-slate-300 mt-1 whitespace-pre-line leading-relaxed">${post.isi}</p>
+        </div>
+
+        <div class="flex items-center justify-between pt-2 border-t border-slate-700/60 text-xs text-slate-400">
+          <span>Penulis: <strong class="text-white">${post.author}</strong></span>
+          <span>❤️ ${post.likes || 0} Ukhuwah</span>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function openAdminAddPostModal() {
+  document.getElementById("formAdminPost")?.reset();
+  document.getElementById("adminPostFormId").value = "";
+  document.getElementById("adminPostFormTitle").textContent = "Siarkan Warta / Postingan Baru";
+  const modal = document.getElementById("modalAdminPostForm");
+  if (modal) modal.classList.remove("hidden");
+}
+
+function adminEditPost(postId) {
+  const forum = getStoredForum();
+  const post = forum.find(p => p.id === postId);
+  if (!post) {
+    alert("Postingan tidak ditemukan.");
+    return;
+  }
+
+  document.getElementById("adminPostFormId").value = post.id;
+  document.getElementById("adminPostFormTitle").textContent = "Edit Postingan Forum";
+  document.getElementById("adminPostAuthor").value = post.author;
+  document.getElementById("adminPostKorwil").value = post.korwil || "Sekretariat Pusat";
+  document.getElementById("adminPostKategori").value = post.kategori || "Pengumuman Resmi";
+  document.getElementById("adminPostJudul").value = post.judul;
+  document.getElementById("adminPostIsi").value = post.isi;
+
+  const modal = document.getElementById("modalAdminPostForm");
+  if (modal) modal.classList.remove("hidden");
+}
+
+function closeAdminPostFormModal() {
+  const modal = document.getElementById("modalAdminPostForm");
+  if (modal) modal.classList.add("hidden");
+}
+
+function handleAdminSavePost(e) {
+  if (e) e.preventDefault();
+
+  const editId = document.getElementById("adminPostFormId").value;
+  const author = document.getElementById("adminPostAuthor").value.trim();
+  const korwil = document.getElementById("adminPostKorwil").value;
+  const kategori = document.getElementById("adminPostKategori").value;
+  const judul = document.getElementById("adminPostJudul").value.trim();
+  const isi = document.getElementById("adminPostIsi").value.trim();
+
+  if (!author || !judul || !isi) {
+    alert("Mohon lengkapi Penulis, Judul, dan Isi Postingan.");
+    return;
+  }
+
+  const forum = getStoredForum();
+
+  if (editId) {
+    const idx = forum.findIndex(p => p.id === editId);
+    if (idx !== -1) {
+      forum[idx] = {
+        ...forum[idx],
+        author: author,
+        korwil: korwil,
+        kategori: kategori,
+        judul: judul,
+        isi: isi,
+        waktu: "Diperbarui oleh Pengurus"
+      };
+    }
+  } else {
+    const newPost = {
+      id: `post-${Date.now()}`,
+      author: author,
+      korwil: korwil,
+      kategori: kategori,
+      waktu: "Baru saja",
+      judul: judul,
+      isi: isi,
+      likes: 1,
+      replies: []
+    };
+    forum.unshift(newPost);
+  }
+
+  saveForum(forum);
+  closeAdminPostFormModal();
+
+  renderForumFeed();
+  renderAdminForumList();
+  updateAdminStatsBadges();
+
+  alert(editId ? "Postingan berhasil diperbarui!" : "Warta baru berhasil disiarkan di forum!");
+}
+
+function adminDeletePost(postId) {
+  const forum = getStoredForum();
+  const target = forum.find(p => p.id === postId);
+  if (!target) return;
+
+  if (!confirm(`Apakah Anda yakin ingin menghapus postingan: "${target.judul}"?`)) return;
+
+  const updated = forum.filter(p => p.id !== postId);
+  saveForum(updated);
+
+  renderForumFeed();
+  renderAdminForumList();
+  updateAdminStatsBadges();
+
+  alert("Postingan berhasil dihapus dari forum.");
+}
+
+// Moderasi Komentar / Tanggapan
+let activeModeratingPostId = null;
+
+function adminManageReplies(postId) {
+  activeModeratingPostId = postId;
+  const forum = getStoredForum();
+  const post = forum.find(p => p.id === postId);
+  if (!post) return;
+
+  const modal = document.getElementById("modalAdminReplies");
+  const listContainer = document.getElementById("adminRepliesList");
+  const title = document.getElementById("adminRepliesModalTitle");
+
+  if (title) title.textContent = `Komentar pada: "${post.judul}"`;
+
+  const replies = post.replies || [];
+
+  if (replies.length === 0) {
+    listContainer.innerHTML = `
+      <div class="p-6 text-center text-xs text-slate-400 bg-slate-800 rounded-xl">
+        Belum ada tanggapan atau komentar pada postingan ini.
+      </div>
+    `;
+  } else {
+    listContainer.innerHTML = replies.map((rep, idx) => {
+      return `
+        <div class="p-3 bg-slate-800 rounded-xl border border-slate-700 flex items-start justify-between gap-3 text-xs">
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+              <strong class="text-white">${rep.author}</strong>
+              <span class="text-slate-400 text-[10px]">${rep.waktu}</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">${rep.pesan}</p>
+          </div>
+          <button onclick="adminDeleteReply('${post.id}', ${idx})" class="px-2 py-1 bg-rose-950 hover:bg-rose-900 text-rose-300 rounded text-[11px] font-semibold border border-rose-800 shrink-0">
+            Hapus
+          </button>
+        </div>
+      `;
+    }).join("");
+  }
+
+  if (modal) modal.classList.remove("hidden");
+}
+
+function closeAdminRepliesModal() {
+  const modal = document.getElementById("modalAdminReplies");
+  if (modal) modal.classList.add("hidden");
+  activeModeratingPostId = null;
+}
+
+function adminDeleteReply(postId, replyIndex) {
+  if (!confirm("Hapus komentar ini?")) return;
+
+  const forum = getStoredForum();
+  const post = forum.find(p => p.id === postId);
+  if (post && post.replies) {
+    post.replies.splice(replyIndex, 1);
+    saveForum(forum);
+    renderForumFeed();
+    adminManageReplies(postId);
+  }
+}
+
+// =====================================================================
+// TAB 3: CRUD AGENDA KEGIATAN & RSVP
+// =====================================================================
+
+function renderAdminAgendaList() {
+  const container = document.getElementById("adminAgendaListContainer");
+  if (!container) return;
+
+  const agenda = getStoredAgenda();
+
+  if (agenda.length === 0) {
+    container.innerHTML = `
+      <div class="col-span-full p-8 text-center bg-slate-800/40 rounded-2xl border border-slate-700 text-slate-400">
+        Belum ada jadwal agenda kegiatan yang terdaftar.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = agenda.map(ag => {
+    return `
+      <div class="p-5 bg-slate-800/80 rounded-2xl border border-slate-700 flex flex-col justify-between space-y-4 transition hover:border-slate-600">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-950 text-amber-300 border border-red-800">
+              ${ag.status}
+            </span>
+            <div class="flex items-center gap-1.5 text-xs">
+              <span class="text-slate-400">RSVP:</span>
+              <strong class="text-amber-400">${ag.pesertaTerdaftar} Warga</strong>
+            </div>
+          </div>
+
+          <h4 class="font-bold text-white text-base leading-snug">${ag.judul}</h4>
+
+          <div class="mt-3 space-y-1.5 text-xs text-slate-300 bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+            <div>📅 <strong>Waktu:</strong> ${ag.tanggal} • ${ag.jam}</div>
+            <div>📍 <strong>Tempat:</strong> ${ag.lokasi}</div>
+            ${ag.penceramah ? `<div>🎙️ <strong>Penceramah:</strong> ${ag.penceramah}</div>` : ''}
+            <div>💡 <strong>Tema:</strong> "${ag.tema}"</div>
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-slate-700/60 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-1 text-xs">
+            <button onclick="adminAdjustRsvp('${ag.id}', 1)" class="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-bold" title="Tambah 1 Peserta RSVP">
+              +1
+            </button>
+            <button onclick="adminAdjustRsvp('${ag.id}', -1)" class="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-bold" title="Kurang 1 Peserta RSVP">
+              -1
+            </button>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <button onclick="adminEditAgenda('${ag.id}')" class="px-3 py-1.5 rounded-lg bg-blue-900/60 hover:bg-blue-800 text-blue-200 text-xs font-semibold border border-blue-700 transition">
+              ✏️ Edit
+            </button>
+            <button onclick="adminDeleteAgenda('${ag.id}')" class="px-3 py-1.5 rounded-lg bg-rose-950 hover:bg-rose-900 text-rose-300 text-xs font-semibold border border-rose-800 transition">
+              🗑️ Hapus
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function openAdminAddAgendaModal() {
+  document.getElementById("formAdminAgenda")?.reset();
+  document.getElementById("adminAgendaFormId").value = "";
+  document.getElementById("adminAgendaFormTitle").textContent = "Tambah Agenda Kegiatan Baru";
+  const modal = document.getElementById("modalAdminAgendaForm");
+  if (modal) modal.classList.remove("hidden");
+}
+
+function adminEditAgenda(agendaId) {
+  const agenda = getStoredAgenda();
+  const ag = agenda.find(a => a.id === agendaId);
+  if (!ag) {
+    alert("Agenda tidak ditemukan.");
+    return;
+  }
+
+  document.getElementById("adminAgendaFormId").value = ag.id;
+  document.getElementById("adminAgendaFormTitle").textContent = "Edit Agenda Kegiatan";
+  document.getElementById("adminAgendaJudul").value = ag.judul;
+  document.getElementById("adminAgendaTanggal").value = ag.tanggal;
+  document.getElementById("adminAgendaJam").value = ag.jam;
+  document.getElementById("adminAgendaLokasi").value = ag.lokasi;
+  document.getElementById("adminAgendaPenceramah").value = ag.penceramah || "";
+  document.getElementById("adminAgendaStatus").value = ag.status || "Membuka RSVP";
+  document.getElementById("adminAgendaTema").value = ag.tema || "";
+  document.getElementById("adminAgendaPeserta").value = ag.pesertaTerdaftar || 0;
+
+  const modal = document.getElementById("modalAdminAgendaForm");
+  if (modal) modal.classList.remove("hidden");
+}
+
+function closeAdminAgendaFormModal() {
+  const modal = document.getElementById("modalAdminAgendaForm");
+  if (modal) modal.classList.add("hidden");
+}
+
+function handleAdminSaveAgenda(e) {
+  if (e) e.preventDefault();
+
+  const editId = document.getElementById("adminAgendaFormId").value;
+  const judul = document.getElementById("adminAgendaJudul").value.trim();
+  const tanggal = document.getElementById("adminAgendaTanggal").value.trim();
+  const jam = document.getElementById("adminAgendaJam").value.trim();
+  const lokasi = document.getElementById("adminAgendaLokasi").value.trim();
+  const penceramah = document.getElementById("adminAgendaPenceramah").value.trim();
+  const status = document.getElementById("adminAgendaStatus").value;
+  const tema = document.getElementById("adminAgendaTema").value.trim();
+  const peserta = parseInt(document.getElementById("adminAgendaPeserta").value, 10) || 0;
+
+  if (!judul || !tanggal || !jam || !lokasi || !tema) {
+    alert("Mohon lengkapi Judul, Tanggal, Jam, Lokasi, dan Tema kegiatan.");
+    return;
+  }
+
+  const agenda = getStoredAgenda();
+
+  if (editId) {
+    const idx = agenda.findIndex(a => a.id === editId);
+    if (idx !== -1) {
+      agenda[idx] = {
+        ...agenda[idx],
+        judul: judul,
+        tanggal: tanggal,
+        jam: jam,
+        lokasi: lokasi,
+        penceramah: penceramah,
+        status: status,
+        tema: tema,
+        pesertaTerdaftar: peserta
+      };
+    }
+  } else {
+    const newAgenda = {
+      id: `agenda-${Date.now()}`,
+      judul: judul,
+      tanggal: tanggal,
+      jam: jam,
+      lokasi: lokasi,
+      penceramah: penceramah,
+      status: status,
+      tema: tema,
+      pesertaTerdaftar: peserta
+    };
+    agenda.push(newAgenda);
+  }
+
+  saveAgenda(agenda);
+  closeAdminAgendaFormModal();
+
+  renderAgendaCards();
+  renderAdminAgendaList();
+  updateAdminStatsBadges();
+
+  alert(editId ? "Agenda berhasil diperbarui!" : "Agenda kegiatan baru berhasil ditambahkan!");
+}
+
+function adminDeleteAgenda(agendaId) {
+  const agenda = getStoredAgenda();
+  const target = agenda.find(a => a.id === agendaId);
+  if (!target) return;
+
+  if (!confirm(`Hapus agenda: "${target.judul}"?`)) return;
+
+  const updated = agenda.filter(a => a.id !== agendaId);
+  saveAgenda(updated);
+
+  renderAgendaCards();
+  renderAdminAgendaList();
+  updateAdminStatsBadges();
+
+  alert("Agenda berhasil dihapus.");
+}
+
+function adminAdjustRsvp(agendaId, delta) {
+  const agenda = getStoredAgenda();
+  const ag = agenda.find(a => a.id === agendaId);
+  if (ag) {
+    ag.pesertaTerdaftar = Math.max(0, (parseInt(ag.pesertaTerdaftar, 10) || 0) + delta);
+    saveAgenda(agenda);
+    renderAgendaCards();
+    renderAdminAgendaList();
+  }
+}
+
+// =====================================================================
+// TAB 4: KAS SOLIDARITAS & PENGATURAN KORWIL
+// =====================================================================
+
+function renderAdminKasForm() {
+  const config = getStoredConfig();
+
+  const bankInput = document.getElementById("adminKasNamaBank");
+  const noRekInput = document.getElementById("adminKasNoRekening");
+  const anInput = document.getElementById("adminKasAtasNama");
+  const waInput = document.getElementById("adminKasKontakWa");
+
+  if (bankInput) bankInput.value = config.kas?.namaBank || "";
+  if (noRekInput) noRekInput.value = config.kas?.noRekening || "";
+  if (anInput) anInput.value = config.kas?.atasNama || "";
+  if (waInput) waInput.value = config.kas?.kontakKonfirmasi || "";
+}
+
+function renderAdminKorwilList() {
+  const container = document.getElementById("adminKorwilListContainer");
+  if (!container) return;
+
+  const config = getStoredConfig();
+  const korwils = config.korwil || [];
+
+  container.innerHTML = korwils.map((k, idx) => {
+    return `
+      <div class="p-3.5 bg-slate-900 rounded-xl border border-slate-700/80 grid grid-cols-1 sm:grid-cols-4 gap-2.5 items-center">
+        <div>
+          <label class="block text-[10px] text-slate-400 font-bold uppercase mb-0.5">Wilayah:</label>
+          <input type="text" id="korwil_wilayah_${idx}" value="${k.wilayah}" class="admin-input w-full text-xs font-bold text-amber-300" />
+        </div>
+        <div>
+          <label class="block text-[10px] text-slate-400 font-bold uppercase mb-0.5">Nama Koordinator:</label>
+          <input type="text" id="korwil_nama_${idx}" value="${k.nama}" class="admin-input w-full text-xs" />
+        </div>
+        <div>
+          <label class="block text-[10px] text-slate-400 font-bold uppercase mb-0.5">Sekretariat / Wilayah:</label>
+          <input type="text" id="korwil_lokasi_${idx}" value="${k.lokasi}" class="admin-input w-full text-xs" />
+        </div>
+        <div>
+          <label class="block text-[10px] text-slate-400 font-bold uppercase mb-0.5">Nomor WhatsApp (62...):</label>
+          <input type="text" id="korwil_wa_${idx}" value="${k.wa}" class="admin-input w-full text-xs font-mono" />
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function adminSaveKasDanKorwil() {
+  const config = getStoredConfig();
+
+  // Read Kas
+  const bankInput = document.getElementById("adminKasNamaBank");
+  const noRekInput = document.getElementById("adminKasNoRekening");
+  const anInput = document.getElementById("adminKasAtasNama");
+  const waInput = document.getElementById("adminKasKontakWa");
+
+  config.kas = {
+    namaBank: bankInput?.value.trim() || config.kas.namaBank,
+    noRekening: noRekInput?.value.trim() || config.kas.noRekening,
+    atasNama: anInput?.value.trim() || config.kas.atasNama,
+    kontakKonfirmasi: waInput?.value.trim() || config.kas.kontakKonfirmasi
+  };
+
+  // Read Korwils
+  const korwils = config.korwil || [];
+  korwils.forEach((k, idx) => {
+    const wil = document.getElementById(`korwil_wilayah_${idx}`);
+    const nm = document.getElementById(`korwil_nama_${idx}`);
+    const lok = document.getElementById(`korwil_lokasi_${idx}`);
+    const wa = document.getElementById(`korwil_wa_${idx}`);
+
+    if (wil) k.wilayah = wil.value.trim();
+    if (nm) k.nama = nm.value.trim();
+    if (lok) k.lokasi = lok.value.trim();
+    if (wa) k.wa = wa.value.trim().replace(/[^0-9]/g, "");
+  });
+  config.korwil = korwils;
+
+  saveConfig(config);
+
+  // Update homepage UI immediately
+  renderBaitulMalInfo();
+  renderKorwilCards();
+
+  alert("Pengaturan Kas Solidaritas dan Kontak Korwil berhasil disimpan dan langsung diperbarui di halaman web!");
+}
+
+// =====================================================================
+// TAB 5: CADANGAN & SISTEM PENGATURAN
+// =====================================================================
+
+function adminChangePin(e) {
+  if (e) e.preventDefault();
+
+  const oldPinInput = document.getElementById("adminOldPin");
+  const newPinInput = document.getElementById("adminNewPin");
+
+  const config = getStoredConfig();
+  const currentPin = config.adminPin || "ikeis2026";
+
+  if (oldPinInput.value.trim() !== currentPin) {
+    alert("PIN Lama tidak sesuai! Silakan periksa kembali.");
+    oldPinInput.focus();
+    return;
+  }
+
+  const newPin = newPinInput.value.trim();
+  if (newPin.length < 4) {
+    alert("PIN baru minimal harus 4 karakter.");
+    newPinInput.focus();
+    return;
+  }
+
+  config.adminPin = newPin;
+  saveConfig(config);
+
+  oldPinInput.value = "";
+  newPinInput.value = "";
+
+  alert(`Alhamdulillah! PIN Administrator berhasil diperbarui menjadi: "${newPin}". Harap catat PIN ini dengan aman.`);
+}
+
+// Ekspor Full JSON Database
+function adminExportDatabaseJSON() {
+  const database = {
+    ikeis_members: getStoredMembers(),
+    ikeis_forum: getStoredForum(),
+    ikeis_agenda: getStoredAgenda(),
+    ikeis_config: getStoredConfig(),
+    exportedAt: new Date().toISOString(),
+    version: "2.0-full-portal"
+  };
+
+  const jsonStr = JSON.stringify(database, null, 2);
+  const blob = new Blob([jsonStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `IKEIS_Database_Full_Backup_${new Date().toISOString().split("T")[0]}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  alert("Berkas cadangan penuh database (Full Backup JSON) berhasil diunduh.");
+}
+
+// Impor / Pulihkan Database dari JSON
+function adminImportDatabaseJSON() {
+  const fileInput = document.getElementById("adminRestoreFileInput");
+  if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+    alert("Silakan pilih berkas .json cadangan terlebih dahulu.");
+    return;
+  }
+
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.ikeis_members && !data.ikeis_forum && !data.ikeis_agenda) {
+        alert("Format berkas JSON tidak sesuai dengan struktur database IKEIS.");
+        return;
+      }
+
+      if (confirm(`Apakah Anda yakin ingin memulihkan database dari berkas "${file.name}"? Seluruh data saat ini akan ditimpa dengan data dari berkas cadangan.`)) {
+        if (data.ikeis_members) saveMembers(data.ikeis_members);
+        if (data.ikeis_forum) saveForum(data.ikeis_forum);
+        if (data.ikeis_agenda) saveAgenda(data.ikeis_agenda);
+        if (data.ikeis_config) saveConfig(data.ikeis_config);
+
+        // Re-render whole site
+        renderMembersDirectory();
+        renderForumFeed();
+        renderAgendaCards();
+        renderBaitulMalInfo();
+        renderKorwilCards();
+        updateLiveStatsHeader();
+
+        // Refresh admin views
+        renderAdminMembersTable();
+        renderAdminForumList();
+        renderAdminAgendaList();
+        renderAdminKasForm();
+        renderAdminKorwilList();
+        updateAdminStatsBadges();
+
+        fileInput.value = "";
+        alert("Alhamdulillah! Database IKEIS berhasil dipulihkan sepenuhnya.");
+      }
+    } catch (err) {
+      console.error("Gagal membaca file JSON:", err);
+      alert("Berkas JSON rusak atau tidak valid.");
+    }
+  };
+
+  reader.readAsText(file);
+}
+
+// Reset Database ke Nilai Bawaan
+function adminResetToDefaultData() {
+  const confirm1 = confirm("PERINGATAN TINGKAT TINGGI:\n\nApakah Anda benar-benar yakin ingin mereset seluruh database web ke pengaturan awal pabrik?\nSemua data anggota yang baru didaftarkan dan postingan baru akan kembali ke sampel awal.");
+  if (!confirm1) return;
+
+  const confirmPrompt = prompt("Ketik kata 'RESET' (huruf besar) untuk melanjutkan reset pabrik:");
+  if (confirmPrompt !== "RESET") {
+    alert("Proses reset dibatalkan.");
+    return;
+  }
+
+  localStorage.removeItem("ikeis_members");
+  localStorage.removeItem("ikeis_forum");
+  localStorage.removeItem("ikeis_agenda");
+  localStorage.removeItem("ikeis_config");
+
+  // Re-read triggers seeds
+  getStoredMembers();
+  getStoredForum();
+  getStoredAgenda();
+  getStoredConfig();
+
+  // Re-render
+  renderMembersDirectory();
+  renderForumFeed();
+  renderAgendaCards();
+  renderBaitulMalInfo();
+  renderKorwilCards();
+  updateLiveStatsHeader();
+
+  renderAdminMembersTable();
+  renderAdminForumList();
+  renderAdminAgendaList();
+  renderAdminKasForm();
+  renderAdminKorwilList();
+  updateAdminStatsBadges();
+
+  alert("Database dan materi web IKEIS telah berhasil direset ke pengaturan default!");
 }
