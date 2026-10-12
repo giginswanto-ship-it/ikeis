@@ -9,26 +9,44 @@ echo.
 
 cd /d "%~dp0"
 
-echo 1. Memeriksa status Git lokal...
-git status -s
+echo Status Commit Git Lokal:
+git log -n 1 --oneline
 echo.
 
-echo 2. Masukkan Personal Access Token (PAT) GitHub Anda.
-echo    (Catatan: Token 'ghp_...' lama mungkin telah kedaluwarsa atau di-revoke oleh GitHub).
-echo    Buat token baru di: https://github.com/settings/tokens (pilih scope 'repo')
+echo Pilih Metode Autentikasi:
+echo [1] Login via Browser (Git Credential Manager - Otomatis & Direkomendasikan)
+echo [2] Masukkan Personal Access Token (PAT) GitHub
 echo.
+set /p PILIHAN="Pilihan Anda (1 atau 2, default 1): "
+
+if "%PILIHAN%"=="2" (
+    goto PUSH_WITH_TOKEN
+) else (
+    goto PUSH_WITH_BROWSER
+)
+
+:PUSH_WITH_BROWSER
+echo.
+echo Menjalankan push via Browser Login...
+echo (Jendela browser akan otomatis terbuka untuk konfirmasi login ke GitHub).
+git -c credential.helper=manager push origin main
+goto FINISH
+
+:PUSH_WITH_TOKEN
+echo.
+echo Buat token baru di: https://github.com/settings/tokens (centang scope 'repo')
 set /p TOKEN="Masukkan Token GitHub Baru Anda: "
-
 if "%TOKEN%"=="" (
     echo [ERROR] Token tidak boleh kosong!
     pause
     exit /b 1
 )
-
 echo.
-echo 3. Melakukan push branch 'main' ke GitHub...
-git push "https://giginswanto-ship-it:%TOKEN%@github.com/giginswanto-ship-it/ikeis.git" main:main
+echo Melakukan push dengan Token ke GitHub...
+git -c credential.helper= push "https://giginswanto-ship-it:%TOKEN%@github.com/giginswanto-ship-it/ikeis.git" main
+goto FINISH
 
+:FINISH
 if %ERRORLEVEL% equ 0 (
     echo.
     echo ========================================================
@@ -37,7 +55,7 @@ if %ERRORLEVEL% equ 0 (
     echo ========================================================
 ) else (
     echo.
-    echo [GAGAL] Push gagal. Silakan periksa apakah token valid dan memiliki izin 'repo'.
+    echo [CATATAN] Jika gagal, pastikan akun GitHub Anda (giginswanto-ship-it) memiliki izin ke repository 'ikeis'.
 )
 
 echo.
