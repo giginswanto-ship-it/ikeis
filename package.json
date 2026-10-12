@@ -1,0 +1,12 @@
+{
+  "name": "ikeis-jabodetabek",
+  "version": "1.0.0",
+  "description": "Portal Komunitas Ikatan Keluarga Islam Simalungun (IKEIS) Jabodetabek",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["ikeis", "simalungun", "komunitas", "jabodetabek"],
+  "author": "IKEIS Jabodetabek",
+  "license": "ISC"
+}
