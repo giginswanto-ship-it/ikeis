@@ -200,13 +200,11 @@ html {
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(15, 23, 42, 0.94) 0%,
-    rgba(28, 5, 12, 0.88) 45%,
-    rgba(28, 5, 12, 0.65) 75%,
-    rgba(15, 23, 42, 0.45) 100%
+    rgba(10, 5, 7, 0.94) 0%,
+    rgba(15, 6, 9, 0.82) 42%,
+    rgba(15, 6, 9, 0.30) 75%,
+    rgba(10, 5, 7, 0.05) 100%
   );
-  backdrop-filter: blur(1.5px);
-  -webkit-backdrop-filter: blur(1.5px);
 }
 
 @media (max-width: 768px) {
