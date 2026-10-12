@@ -218,3 +218,57 @@ html {
   }
 }
 
+/* =====================================================================
+   SPACE SILATURAHMI ANGGOTA BER-KTA (MAKSIMAL 3 FOTO & STATUS)
+   ===================================================================== */
+.member-space-modal {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.photo-slot {
+  aspect-ratio: 4 / 3;
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background-color: #0f172a;
+  border: 1px solid rgba(153, 27, 27, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.photo-slot:hover {
+  transform: translateY(-2px);
+  border-color: #991b1b;
+  box-shadow: 0 10px 25px -5px rgba(153, 27, 27, 0.25);
+}
+
+.photo-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.photo-slot:hover img {
+  transform: scale(1.05);
+}
+
+.upload-dropzone {
+  border: 2px dashed rgba(153, 27, 27, 0.4);
+  background: rgba(254, 242, 242, 0.5);
+  transition: all 0.2s ease;
+}
+
+.upload-dropzone:hover, .upload-dropzone.dragover {
+  border-color: #991b1b;
+  background: rgba(254, 242, 242, 0.9);
+}
+
+/* Lightbox Modal */
+.lightbox-modal {
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+

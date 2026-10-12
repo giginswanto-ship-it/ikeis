@@ -135,6 +135,13 @@
                   <div class="text-[10px] text-slate-500">Habonaron Do Bona & adat santun</div>
                 </div>
               </a>
+              <a href="#space-silaturahmi" onclick="promptSelectMemberForSpace()" class="flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 text-slate-800 hover:text-red-900 transition border-t border-slate-100">
+                <span class="w-7 h-7 rounded-lg bg-red-900 text-amber-300 flex items-center justify-center text-xs font-bold shrink-0">📸</span>
+                <div>
+                  <div class="font-bold text-xs text-red-950">Space Silaturahmi Warga</div>
+                  <div class="text-[10px] text-slate-500">Maks 3 foto silaturahmi & status KTA</div>
+                </div>
+              </a>
             </div>
           </div>
 
@@ -163,6 +170,7 @@
         <a href="#demografi" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-red-50 hover:text-red-800">Catatan Demografi Resmi</a>
         <a href="#direktori" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-red-50 hover:text-red-800">Direktori Anggota Jabodetabek</a>
         <a href="#forum" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-bold text-red-900 bg-red-50/80">Portal Silaturahmi & Dinding Ukhuwah</a>
+        <a href="#space-silaturahmi" onclick="toggleMobileMenu(); promptSelectMemberForSpace();" class="block px-3 py-2 rounded-lg text-sm font-bold text-amber-900 bg-amber-100/70 border border-amber-200">📸 Space Silaturahmi Warga (Foto & Status)</a>
         <a href="#agenda" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-red-50 hover:text-red-800">Agenda & Kas Solidaritas</a>
         <a href="#budaya" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-red-50 hover:text-red-800">Falsafah Budaya</a>
         <a href="#pendaftaran" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-red-50 hover:text-red-800">Pendaftaran Anggota KTA</a>
@@ -834,6 +842,36 @@
         </p>
       </div>
 
+      <!-- BANNER SPACE KHUSUS ANGGOTA BER-KTA (MAKS 3 FOTO & STATUS) -->
+      <div id="space-silaturahmi" class="mb-10 bg-gradient-to-r from-red-950 via-[#27070e] to-black rounded-3xl p-6 sm:p-8 text-white border-2 border-red-800/70 shadow-xl relative overflow-hidden">
+        <div class="absolute right-0 top-0 bottom-0 w-1/3 bg-radial-gradient from-amber-500/15 to-transparent pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-xs font-black tracking-wider uppercase mb-2 shadow-sm">
+              <span>📸 Ruang Silaturahmi Warga Ber-KTA</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black font-serif text-white">Space Foto Silaturahmi & Status Anggota</h3>
+            <p class="text-sm text-slate-200 mt-1 leading-relaxed">
+              Setiap anggota yang telah memiliki KTA IKEIS Jabodetabek memiliki space tersendiri untuk mengunggah dokumentasi kegiatan silaturahmi (maksimal 3 foto) dan menuliskan status kabar ukhuwah terkini.
+            </p>
+            <div class="flex flex-wrap items-center gap-4 mt-3 text-xs text-amber-200 font-semibold">
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Maksimal 3 Foto Kegiatan</span>
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-400"></span> Status Ukhuwah Personal</span>
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-red-400"></span> Terhubung Langsung ke Direktori</span>
+            </div>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
+            <button onclick="promptSelectMemberForSpace()" class="py-3 px-5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs shadow-lg transition flex items-center justify-center gap-2">
+              <svg class="w-4 h-4 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+              <span>Buka / Update Space Saya</span>
+            </button>
+            <a href="#direktori" class="py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold backdrop-blur-sm transition text-center border border-white/20">
+              Lihat Foto di Direktori
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         <!-- Left: Form Kirim Pesan Ukhuwah -->
         <div class="lg:col-span-5 bg-gradient-to-br from-slate-50 to-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-sm sticky top-28">
@@ -1275,14 +1313,172 @@
       <div class="flex items-center justify-center gap-3">
         <button onclick="printKtaCard()" class="flex-1 py-2.5 px-4 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 shadow">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-          <span>Cetak / Simpan KTA (PDF)</span>
+          <span>Cetak / PDF</span>
         </button>
-        <a id="btnShareKtaWa" href="#" target="_blank" class="py-2.5 px-4 bg-red-800 hover:bg-red-900 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 shadow">
+        <a id="btnShareKtaWa" href="#" target="_blank" class="py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 shadow">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.288.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.45 1.053 1.343 1.849.528.47 1.077.674 1.279.76.202.086.319.072.435-.058.116-.13.491-.57.622-.765.13-.195.26-.162.434-.097.174.065 1.102.52 1.29.614.188.094.313.141.359.22.046.079.046.455-.098.86z"/></svg>
-          <span>Bagi ke WhatsApp</span>
+          <span>Bagi ke WA</span>
         </a>
       </div>
 
+      <!-- Quick Link: Open Member Space from KTA -->
+      <div class="mt-3 pt-3 border-t border-slate-100">
+        <button onclick="openMemberSpaceFromKta()" class="w-full py-2.5 px-4 bg-gradient-to-r from-red-800 via-red-900 to-black hover:from-red-900 hover:to-neutral-900 text-amber-300 font-bold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2 border border-amber-400/40">
+          <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          <span>Buka Space Silaturahmi Saya (Foto & Status)</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL SPACE SILATURAHMI ANGGOTA (MAKSIMAL 3 FOTO & STATUS UKHUWAH)
+       ===================================================================== -->
+  <div id="modalMemberSpace" class="fixed inset-0 z-50 bg-black/85 member-space-modal hidden flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative border-2 border-red-900/40 my-8 max-h-[90vh] overflow-y-auto">
+      
+      <!-- Close Button -->
+      <button onclick="closeMemberSpace()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-red-800 flex items-center justify-center transition border border-slate-200 z-10">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+
+      <!-- Member Header Profile -->
+      <div class="flex items-start gap-4 pb-5 border-b border-slate-100 mb-6">
+        <div id="spaceMemberAvatar" class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-900 via-red-950 to-black text-amber-300 font-bold text-xl flex items-center justify-center shadow-md border-2 border-amber-400 shrink-0">
+          JD
+        </div>
+        <div class="flex-1 min-w-0 pr-8">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-red-100 text-red-900 border border-red-200 uppercase">
+              Ruang Warga Ber-KTA
+            </span>
+            <span id="spaceMemberId" class="text-xs font-mono font-bold text-red-800 bg-red-50 px-2 py-0.5 rounded border border-red-200">
+              IKEIS-JBD-2026-001
+            </span>
+          </div>
+          <h3 id="spaceMemberNama" class="text-lg sm:text-xl font-bold text-slate-900 truncate">Nama Anggota</h3>
+          <div class="flex flex-wrap items-center gap-2 text-xs text-slate-500 mt-0.5">
+            <span id="spaceMemberMarga" class="font-medium text-slate-700">Marga Damanik</span>
+            <span>•</span>
+            <span id="spaceMemberDomisili">Jakarta Selatan</span>
+            <span>•</span>
+            <span id="spaceMemberAsal" class="text-red-900 font-medium">Asal Kec. Tapian Dolok</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Status Silaturahmi Warga -->
+      <div class="mb-6">
+        <div class="flex items-center justify-between mb-2">
+          <label class="block text-xs font-bold text-slate-800 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            Status Ukhuwah & Kabar Silaturahmi Terkini
+          </label>
+          <span id="spaceStatusWaktu" class="text-[10px] text-slate-400">Terakhir diperbarui: Hari ini</span>
+        </div>
+        <textarea id="spaceStatusInput" rows="3" placeholder="Tuliskan kabar ukhuwah, salam silaturahmi, atau cerita perjumpaan dongan sabutuha..." class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-2 focus:ring-red-700 focus:outline-none transition"></textarea>
+      </div>
+
+      <!-- Section Upload & Galeri Foto Kegiatan (Maksimal 3 Foto) -->
+      <div class="mb-6">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <h4 class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              Foto Kegiatan Silaturahmi Antar Anggota (Maksimal 3 Foto)
+            </h4>
+            <p class="text-[11px] text-slate-500">Maksimal 3 foto dokumentasi kegiatan silaturahmi bersama sesama warga IKEIS.</p>
+          </div>
+          <span id="spacePhotoCountBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300">
+            0 / 3 Foto Kegiatan
+          </span>
+        </div>
+
+        <!-- Grid Foto Terupload -->
+        <div id="spacePhotoGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- Upload Dropzone (Tampil jika foto < 3) -->
+        <div id="spaceUploadZone" class="upload-dropzone p-4 rounded-2xl text-center cursor-pointer relative">
+          <input type="file" id="spaceFileInput" accept="image/*" multiple onchange="handleSpacePhotoInput(this.files)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+          <div class="pointer-events-none">
+            <svg class="w-8 h-8 mx-auto text-red-700 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+            <div class="text-xs font-bold text-slate-800">+ Pilih / Unggah Foto Kegiatan Silaturahmi</div>
+            <div id="spaceUploadRemainingText" class="text-[11px] text-red-700 font-semibold mt-0.5">Tersisa 3 slot foto (format JPG/PNG)</div>
+          </div>
+        </div>
+
+        <!-- Notice jika sudah 3 foto -->
+        <div id="spaceUploadMaxAlert" class="hidden p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 text-xs flex items-center gap-2">
+          <svg class="w-4 h-4 text-amber-600 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+          <span>Batas kuota maksimal 3 foto telah tercapai. Hapus salah satu foto di atas jika ingin mengganti dengan foto baru.</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <a id="btnShareSpaceWa" href="#" target="_blank" class="w-full sm:w-auto py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2 shadow-sm order-2 sm:order-1">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.288.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.45 1.053 1.343 1.849.528.47 1.077.674 1.279.76.202.086.319.072.435-.058.116-.13.491-.57.622-.765.13-.195.26-.162.434-.097.174.065 1.102.52 1.29.614.188.094.313.141.359.22.046.079.046.455-.098.86z"/></svg>
+          <span>Bagikan ke WhatsApp</span>
+        </a>
+        <div class="flex items-center gap-2 w-full sm:w-auto order-1 sm:order-2">
+          <button onclick="closeMemberSpace()" class="flex-1 sm:flex-initial py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition">
+            Tutup
+          </button>
+          <button onclick="saveMemberSpace()" class="flex-1 sm:flex-initial py-2.5 px-6 bg-gradient-to-r from-red-800 via-red-900 to-black hover:from-red-900 hover:to-neutral-900 text-amber-300 font-bold text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-2 border border-amber-400/40">
+            <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span>Simpan Space Silaturahmi</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL LIGHTBOX FULL-SIZE FOTO KEGIATAN
+       ===================================================================== -->
+  <div id="modalPhotoLightbox" class="fixed inset-0 z-50 lightbox-modal hidden flex items-center justify-center p-4">
+    <div class="relative max-w-4xl w-full flex flex-col items-center">
+      <button onclick="closePhotoLightbox()" class="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <div class="rounded-2xl overflow-hidden shadow-2xl border-2 border-amber-400/40 bg-black">
+        <img id="lightboxImage" src="" alt="Foto Silaturahmi" class="max-h-[80vh] w-auto object-contain mx-auto" />
+      </div>
+      <p id="lightboxCaption" class="text-amber-200 text-sm font-semibold mt-3 text-center px-4 bg-black/60 py-1.5 rounded-full border border-amber-400/20"></p>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL PILIH ANGGOTA UNTUK UPDATE SPACE
+       ===================================================================== -->
+  <div id="modalSelectMemberSpace" class="fixed inset-0 z-50 bg-black/85 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative border border-slate-200">
+      <button onclick="closeSelectMemberSpaceModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-red-100 text-red-900 flex items-center justify-center text-lg font-bold border border-red-200">
+          📸
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 text-base">Buka Space Silaturahmi</h4>
+          <p class="text-xs text-slate-500">Pilih identitas anggota ber-KTA Anda</p>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="block text-xs font-bold text-slate-700 mb-1.5">Pilih Nama Anggota / ID KTA:</label>
+        <select id="selectMemberSpaceDropdown" class="w-full px-3 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-red-700 focus:outline-none">
+          <!-- Populated via JS -->
+        </select>
+      </div>
+      <div class="flex items-center justify-end gap-2">
+        <button onclick="closeSelectMemberSpaceModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl">Batal</button>
+        <button onclick="submitSelectMemberSpace()" class="px-5 py-2 bg-red-800 hover:bg-red-900 text-white text-xs font-bold rounded-xl shadow">Buka Space Saya</button>
+      </div>
     </div>
   </div>
 

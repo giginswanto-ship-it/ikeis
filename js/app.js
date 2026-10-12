@@ -47,6 +47,38 @@ const DATA_DEMOGRAFI = {
   ]
 };
 
+// HELPER SVG GENERATOR UNTUK DOKUMENTASI KEGIATAN SILATURAHMI DEFAULT (MAKS 3 FOTO)
+function generateSampleSilaturahmiPhoto(title, sub, iconType = "ukhuwah") {
+  const iconPath = iconType === "kuliner" 
+    ? '<circle cx="0" cy="-35" r="32" fill="#7f1d1d" stroke="#f59e0b" stroke-width="2"/><path d="M-15 -35 h30 M-10 -45 c0 15 20 15 20 0" stroke="#fef08a" stroke-width="2.5" fill="none"/>'
+    : iconType === "pengajian"
+    ? '<circle cx="0" cy="-35" r="32" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/><path d="M-14 -25 l14 -16 l14 16 M-14 -25 h28" stroke="#fef08a" stroke-width="2.5" fill="none"/>'
+    : '<circle cx="0" cy="-35" r="32" fill="#450a0a" stroke="#f59e0b" stroke-width="2"/><path d="M-12 -28 c0 -6 5 -10 12 -10 s12 4 12 10 M-8 -44 a4 4 0 1 1 8 0 a4 4 0 1 1 -8 0" stroke="#fef08a" stroke-width="2.5" fill="none"/>';
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450">
+    <defs>
+      <linearGradient id="g_${title.replace(/[^a-zA-Z0-9]/g, '')}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#1e0508"/>
+        <stop offset="50%" stop-color="#4c0519"/>
+        <stop offset="100%" stop-color="#020617"/>
+      </linearGradient>
+    </defs>
+    <rect width="600" height="450" fill="url(#g_${title.replace(/[^a-zA-Z0-9]/g, '')})"/>
+    <circle cx="530" cy="70" r="140" fill="rgba(217, 119, 6, 0.12)"/>
+    <circle cx="70" cy="380" r="90" fill="rgba(153, 27, 27, 0.25)"/>
+    <rect x="25" y="25" width="550" height="400" rx="16" fill="none" stroke="rgba(251, 191, 36, 0.45)" stroke-width="2" stroke-dasharray="8 6"/>
+    <rect x="0" y="442" width="600" height="8" fill="#d97706"/>
+    <g transform="translate(300, 210)" text-anchor="middle">
+      ${iconPath}
+      <text y="24" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="800" font-size="20" fill="#ffffff">${title}</text>
+      <text y="52" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="500" font-size="13" fill="#fde68a">${sub}</text>
+      <rect x="-110" y="78" width="220" height="28" rx="14" fill="#991b1b" stroke="#f59e0b" stroke-width="1.2"/>
+      <text y="97" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-size="11" font-weight="bold" fill="#ffffff">DOKUMENTASI SILATURAHMI</text>
+    </g>
+  </svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+
 // 3. SEED DATA ANGGOTA IKEIS JABODETABEK
 const SEED_MEMBERS = [
   {
@@ -63,7 +95,29 @@ const SEED_MEMBERS = [
     email: "zulkifli.damanik@gmail.com",
     bidangMinat: "Ekonomi & Usaha Komunitas",
     tanggalGabung: "2024-01-15",
-    status: "Aktif"
+    status: "Aktif",
+    statusSilaturahmi: "Alhamdulillah selesai silaturahmi bulanan keluarga Damanik se-Jakarta Selatan di Tebet. Suasana penuh kehangatan bernostalgia kampung halaman.",
+    statusWaktu: "Hari ini, 14:20 WIB",
+    fotoKegiatan: [
+      {
+        id: "foto-1-1",
+        url: generateSampleSilaturahmiPhoto("Silaturahmi Warga Tebet", "Temu Kangen Dongan Tubu Jaksel", "ukhuwah"),
+        caption: "Silaturahmi Bulanan Warga Tebet & Sekitarnya",
+        waktu: "12 Okt 2026"
+      },
+      {
+        id: "foto-1-2",
+        url: generateSampleSilaturahmiPhoto("Jamuan Dayok Binatur", "Santap Kuliner Halal Khas Simalungun", "kuliner"),
+        caption: "Jamuan Khas Halal Dayok Binatur",
+        waktu: "12 Okt 2026"
+      },
+      {
+        id: "foto-1-3",
+        url: generateSampleSilaturahmiPhoto("Foto Bersama Pengurus", "Ukhuwah Dongan Sabutuha Jabodetabek", "ukhuwah"),
+        caption: "Foto Bersama Pengurus Korwil Jaksel",
+        waktu: "12 Okt 2026"
+      }
+    ]
   },
   {
     id: "IKEIS-JBD-2026-002",
@@ -79,7 +133,23 @@ const SEED_MEMBERS = [
     email: "nurasyiah.saragih@univ.ac.id",
     bidangMinat: "Pendidikan & Pembinaan Generasi Muda",
     tanggalGabung: "2024-02-10",
-    status: "Aktif"
+    status: "Aktif",
+    statusSilaturahmi: "Kunjungan silaturahmi & takziah ke kediaman inang boru di Depok Timur. Alhamdulillah tali persaudaraan sesama perantau tetap terjaga erat.",
+    statusWaktu: "Kemarin, 19:45 WIB",
+    fotoKegiatan: [
+      {
+        id: "foto-2-1",
+        url: generateSampleSilaturahmiPhoto("Pengajian Rutin Ibu-Ibu Depok", "Kajian Keluarga Sakinah & Silaturahmi", "pengajian"),
+        caption: "Pertemuan Silaturahmi Warga Depok",
+        waktu: "11 Okt 2026"
+      },
+      {
+        id: "foto-2-2",
+        url: generateSampleSilaturahmiPhoto("Tinuktuk Asli Raya", "Oleh-oleh Kampung Halaman untuk Dongan", "kuliner"),
+        caption: "Penyerahan Bingkisan Rempah Tradisional",
+        waktu: "11 Okt 2026"
+      }
+    ]
   },
   {
     id: "IKEIS-JBD-2026-003",
@@ -95,7 +165,17 @@ const SEED_MEMBERS = [
     email: "faisal.purba@techcorp.id",
     bidangMinat: "Media, IT & Hubungan Masyarakat",
     tanggalGabung: "2024-03-01",
-    status: "Aktif"
+    status: "Aktif",
+    statusSilaturahmi: "Kopdar santai generasi muda IKEIS di Harapan Indah Bekasi. Siap berkontribusi mengawal digitalisasi portal silaturahmi warga rantau.",
+    statusWaktu: "2 hari yang lalu",
+    fotoKegiatan: [
+      {
+        id: "foto-3-1",
+        url: generateSampleSilaturahmiPhoto("Kopdar Milenial IKEIS Bekasi", "Sinergi IT & Pengembangan Web Komunitas", "ukhuwah"),
+        caption: "Temu Pemuda & Milenial IKEIS Bekasi",
+        waktu: "10 Okt 2026"
+      }
+    ]
   },
   {
     id: "IKEIS-JBD-2026-004",
@@ -111,7 +191,17 @@ const SEED_MEMBERS = [
     email: "ahmad.sinaga.lc@gmail.com",
     bidangMinat: "Dakwah & Kajian Fiqih Keislaman",
     tanggalGabung: "2024-01-20",
-    status: "Aktif"
+    status: "Aktif",
+    statusSilaturahmi: "Kajian bulanan fiqih muamalah perantau di Duren Sawit Jakarta Timur. Menguatkan iman dan merekatkan persaudaraan.",
+    statusWaktu: "3 hari yang lalu",
+    fotoKegiatan: [
+      {
+        id: "foto-4-1",
+        url: generateSampleSilaturahmiPhoto("Kajian Fiqih Muamalah Jaktim", "Duren Sawit Jakarta Timur", "pengajian"),
+        caption: "Dokumentasi Kajian Fiqih Perantau",
+        waktu: "9 Okt 2026"
+      }
+    ]
   },
   {
     id: "IKEIS-JBD-2026-005",
@@ -127,7 +217,10 @@ const SEED_MEMBERS = [
     email: "dr.siti.rahmah@hospital.id",
     bidangMinat: "Kesehatan & Bakti Sosial",
     tanggalGabung: "2024-04-12",
-    status: "Aktif"
+    status: "Aktif",
+    statusSilaturahmi: "",
+    statusWaktu: "",
+    fotoKegiatan: []
   },
   {
     id: "IKEIS-JBD-2026-006",
@@ -143,7 +236,10 @@ const SEED_MEMBERS = [
     email: "bambang.purba.law@gmail.com",
     bidangMinat: "Advokasi & Bantuan Hukum Warga",
     tanggalGabung: "2024-05-02",
-    status: "Aktif"
+    status: "Aktif",
+    statusSilaturahmi: "",
+    statusWaktu: "",
+    fotoKegiatan: []
   },
   {
     id: "IKEIS-JBD-2026-007",
@@ -159,7 +255,10 @@ const SEED_MEMBERS = [
     email: "rahmad.logistik@gmail.com",
     bidangMinat: "Sosial & Kas Kemalangan",
     tanggalGabung: "2024-05-20",
-    status: "Aktif"
+    status: "Aktif",
+    statusSilaturahmi: "",
+    statusWaktu: "",
+    fotoKegiatan: []
   },
   {
     id: "IKEIS-JBD-2026-008",
@@ -175,7 +274,10 @@ const SEED_MEMBERS = [
     email: "fatimah.saragih@student.ac.id",
     bidangMinat: "Generasi Muda & Budaya Simalungun",
     tanggalGabung: "2024-06-11",
-    status: "Aktif"
+    status: "Aktif",
+    statusSilaturahmi: "",
+    statusWaktu: "",
+    fotoKegiatan: []
   }
 ];
 
@@ -270,11 +372,70 @@ function getStoredMembers() {
     localStorage.setItem("ikeis_members", JSON.stringify(SEED_MEMBERS));
     return SEED_MEMBERS;
   }
-  return JSON.parse(data);
+  let members = JSON.parse(data);
+  let needsUpdate = false;
+
+  members = members.map(m => {
+    // Migration: populate seed status & photo gallery if missing
+    const seed = SEED_MEMBERS.find(s => s.id === m.id);
+    if ((!m.fotoKegiatan || m.fotoKegiatan.length === 0) && seed && seed.fotoKegiatan && seed.fotoKegiatan.length > 0) {
+      m.fotoKegiatan = seed.fotoKegiatan;
+      m.statusSilaturahmi = seed.statusSilaturahmi;
+      m.statusWaktu = seed.statusWaktu;
+      needsUpdate = true;
+    } else {
+      if (!m.fotoKegiatan) m.fotoKegiatan = [];
+      if (typeof m.statusSilaturahmi === "undefined") m.statusSilaturahmi = "";
+      if (typeof m.statusWaktu === "undefined") m.statusWaktu = "";
+    }
+    return m;
+  });
+
+  if (needsUpdate) {
+    localStorage.setItem("ikeis_members", JSON.stringify(members));
+  }
+  return members;
 }
 
 function saveMembers(members) {
   localStorage.setItem("ikeis_members", JSON.stringify(members));
+}
+
+// Client-side HTML5 Canvas Image Compression Helper (Max 800px, JPEG 0.72)
+function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.72) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target.result;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.onerror = (err) => reject(err);
+    };
+    reader.onerror = (err) => reject(err);
+  });
 }
 
 function getStoredForum() {
@@ -521,7 +682,10 @@ function initRegistrationForm() {
       email: email,
       bidangMinat: bidangMinat || "Ukhuwah & Silaturahmi",
       tanggalGabung: new Date().toISOString().split("T")[0],
-      status: "Aktif"
+      status: "Aktif",
+      statusSilaturahmi: "",
+      statusWaktu: "",
+      fotoKegiatan: []
     };
 
     members.unshift(newMember);
@@ -653,6 +817,9 @@ function renderMembersDirectory() {
   container.innerHTML = filtered.map(m => {
     // Initials for avatar
     const initials = m.nama.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase();
+    const hasStatus = m.statusSilaturahmi && m.statusSilaturahmi.trim().length > 0;
+    const photos = m.fotoKegiatan || [];
+    const hasPhotos = photos.length > 0;
 
     return `
       <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-red-600/40 transition-all p-5 flex flex-col justify-between group">
@@ -693,18 +860,57 @@ function renderMembersDirectory() {
               <span><strong>Profesi:</strong> ${m.profesi}</span>
             </div>
           </div>
+
+          <!-- Status Silaturahmi Warga (Jika Ada) -->
+          ${hasStatus ? `
+            <div class="mt-3 p-3 bg-red-50/70 rounded-xl border border-red-200/70 text-xs text-slate-800 relative">
+              <div class="flex items-start gap-2">
+                <svg class="w-4 h-4 text-red-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                <div class="flex-1">
+                  <span class="italic text-slate-700 line-clamp-2">"${m.statusSilaturahmi}"</span>
+                  <span class="block text-[10px] text-red-800 font-semibold mt-1">🕒 ${m.statusWaktu || 'Baru saja'}</span>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Galeri Foto Kegiatan Silaturahmi (Maksimal 3 Foto) -->
+          ${hasPhotos ? `
+            <div class="mt-3 pt-2.5 border-t border-slate-100">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-[11px] font-bold text-slate-700 flex items-center gap-1">
+                  <span>📸</span> Foto Kegiatan:
+                </span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-900 text-amber-300 border border-amber-400/40">
+                  ${photos.length} / 3 Foto
+                </span>
+              </div>
+              <div class="grid grid-cols-3 gap-1.5">
+                ${photos.map((f, i) => `
+                  <div class="photo-slot h-16 rounded-lg cursor-pointer" onclick="openPhotoLightbox('${f.url}', '${(f.caption || m.nama).replace(/'/g, "\\'")}')" title="${f.caption || 'Klik untuk perbesar'}">
+                    <img src="${f.url}" alt="${f.caption || 'Foto Silaturahmi'}" class="w-full h-full object-cover" />
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          ` : ''}
         </div>
 
-        <!-- Action Buttons -->
-        <div class="pt-4 flex items-center justify-between gap-2 mt-2">
-          <button onclick="viewMemberKta('${m.id}')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-red-50 text-slate-700 hover:text-red-800 text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1.5 border border-slate-200">
+        <!-- Action Buttons (Space Warga, KTA, Sapa WA) -->
+        <div class="pt-4 flex items-center justify-between gap-1.5 mt-2 border-t border-slate-100">
+          <button onclick="openMemberSpace('${m.id}')" title="Buka Space Silaturahmi (Status & Upload Foto)" class="flex-1 py-1.5 px-2 bg-gradient-to-r from-red-800 to-red-950 hover:from-red-900 hover:to-black text-amber-300 text-xs font-bold rounded-lg transition flex items-center justify-center gap-1 shadow-sm border border-amber-400/30">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            <span>Space Warga</span>
+          </button>
+
+          <button onclick="viewMemberKta('${m.id}')" title="Lihat KTA Digital" class="py-1.5 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1 border border-slate-200">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg>
-            KTA Digital
+            <span>KTA</span>
           </button>
           
-          <a href="https://api.whatsapp.com/send?phone=${m.telepon ? m.telepon.replace(/^0/, '62') : ''}&text=${encodeURIComponent(`Assalamu'alaikum Uda/Inang/Bapa ${m.nama}, saya sesama anggota IKEIS Jabodetabek asal Simalungun...`)}" target="_blank" class="py-1.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1.5 shadow-sm">
+          <a href="https://api.whatsapp.com/send?phone=${m.telepon ? m.telepon.replace(/^0/, '62') : ''}&text=${encodeURIComponent(`Assalamu'alaikum Uda/Inang/Bapa ${m.nama}, saya sesama anggota IKEIS Jabodetabek...`)}" target="_blank" title="Sapa melalui WhatsApp" class="py-1.5 px-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1 shadow-sm">
             <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.288.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.45 1.053 1.343 1.849.528.47 1.077.674 1.279.76.202.086.319.072.435-.058.116-.13.491-.57.622-.765.13-.195.26-.162.434-.097.174.065 1.102.52 1.29.614.188.094.313.141.359.22.046.079.046.455-.098.86z"/></svg>
-            Sapa WA
+            <span>WA</span>
           </a>
         </div>
       </div>
@@ -717,6 +923,296 @@ function viewMemberKta(memberId) {
   const found = members.find(m => m.id === memberId);
   if (found) {
     showKtaModal(found, false);
+  }
+}
+
+// =====================================================================
+// SPACE SILATURAHMI ANGGOTA (MAKSIMAL 3 FOTO & STATUS UKHUWAH)
+// =====================================================================
+let activeSpaceMemberId = null;
+let activeSpaceDraftPhotos = [];
+
+function openMemberSpace(memberId) {
+  const members = getStoredMembers();
+  const member = members.find(m => m.id === memberId);
+  if (!member) {
+    alert("Data anggota tidak ditemukan.");
+    return;
+  }
+
+  activeSpaceMemberId = memberId;
+  activeSpaceDraftPhotos = JSON.parse(JSON.stringify(member.fotoKegiatan || []));
+
+  // Set member profile details in modal
+  const initials = member.nama.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase();
+  const avatarEl = document.getElementById("spaceMemberAvatar");
+  if (avatarEl) avatarEl.textContent = initials;
+
+  const namaEl = document.getElementById("spaceMemberNama");
+  if (namaEl) namaEl.textContent = member.nama;
+
+  const idEl = document.getElementById("spaceMemberId");
+  if (idEl) idEl.textContent = member.id;
+
+  const margaEl = document.getElementById("spaceMemberMarga");
+  if (margaEl) margaEl.textContent = `Marga ${member.marga}`;
+
+  const domisiliEl = document.getElementById("spaceMemberDomisili");
+  if (domisiliEl) domisiliEl.textContent = member.domisili;
+
+  const asalEl = document.getElementById("spaceMemberAsal");
+  if (asalEl) asalEl.textContent = `Asal Kec. ${member.kecamatanAsal}${member.nagoriAsal && member.nagoriAsal !== '-' ? ' (' + member.nagoriAsal + ')' : ''}`;
+
+  const statusInput = document.getElementById("spaceStatusInput");
+  if (statusInput) statusInput.value = member.statusSilaturahmi || "";
+
+  const statusWaktuEl = document.getElementById("spaceStatusWaktu");
+  if (statusWaktuEl) {
+    statusWaktuEl.textContent = member.statusWaktu ? `Terakhir diperbarui: ${member.statusWaktu}` : "Belum ada status silaturahmi yang ditulis";
+  }
+
+  // Setup WhatsApp share button
+  const shareBtn = document.getElementById("btnShareSpaceWa");
+  if (shareBtn) {
+    const waText = encodeURIComponent(
+      `Horas! Kunjungi Space Silaturahmi saya di Portal IKEIS Jabodetabek:\n` +
+      `Nama: ${member.nama} (${member.marga})\n` +
+      `KTA ID: ${member.id}\n` +
+      `Status: "${member.statusSilaturahmi || 'Silaturahmi mempererat ukhuwah dongan sabutuha'}"\n` +
+      `Dokumentasi: ${activeSpaceDraftPhotos.length} Foto Silaturahmi\n` +
+      `Habonaron Do Bona!`
+    );
+    shareBtn.href = `https://api.whatsapp.com/send?text=${waText}`;
+  }
+
+  renderSpacePhotoGallery();
+
+  const modal = document.getElementById("modalMemberSpace");
+  if (modal) modal.classList.remove("hidden");
+}
+
+function closeMemberSpace() {
+  const modal = document.getElementById("modalMemberSpace");
+  if (modal) modal.classList.add("hidden");
+  activeSpaceMemberId = null;
+  activeSpaceDraftPhotos = [];
+}
+
+function renderSpacePhotoGallery() {
+  const container = document.getElementById("spacePhotoGrid");
+  const countBadge = document.getElementById("spacePhotoCountBadge");
+  const uploadZone = document.getElementById("spaceUploadZone");
+  const uploadAlert = document.getElementById("spaceUploadMaxAlert");
+
+  const total = activeSpaceDraftPhotos.length;
+  if (countBadge) {
+    countBadge.textContent = `${total} / 3 Foto Kegiatan`;
+    if (total === 3) {
+      countBadge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300";
+    } else {
+      countBadge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300";
+    }
+  }
+
+  if (uploadZone) {
+    if (total >= 3) {
+      uploadZone.classList.add("hidden");
+    } else {
+      uploadZone.classList.remove("hidden");
+      const remaining = 3 - total;
+      const helperText = document.getElementById("spaceUploadRemainingText");
+      if (helperText) {
+        helperText.textContent = `Tersisa ${remaining} slot foto kegiatan silaturahmi`;
+      }
+    }
+  }
+
+  if (uploadAlert) {
+    if (total >= 3) {
+      uploadAlert.classList.remove("hidden");
+    } else {
+      uploadAlert.classList.add("hidden");
+    }
+  }
+
+  if (!container) return;
+
+  if (total === 0) {
+    container.innerHTML = `
+      <div class="col-span-full py-8 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-300">
+        <div class="w-12 h-12 mx-auto mb-2 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        </div>
+        <p class="text-xs text-slate-500 font-medium">Belum ada foto kegiatan silaturahmi yang diunggah.</p>
+        <p class="text-[11px] text-slate-400 mt-0.5">Unggah maksimal 3 foto dokumentasi silaturahmi Anda bersama dongan sabutuha.</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = activeSpaceDraftPhotos.map((photo, index) => {
+    return `
+      <div class="photo-slot group relative bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 shadow-sm flex flex-col justify-between">
+        <img src="${photo.url}" alt="${photo.caption || 'Foto Silaturahmi'}" onclick="openPhotoLightbox('${photo.url}', '${(photo.caption || 'Foto Silaturahmi ' + (index+1)).replace(/'/g, "\\'")}')" class="w-full h-44 object-cover cursor-pointer" />
+        
+        <!-- Overlay Badges -->
+        <div class="absolute top-2 left-2 pointer-events-none">
+          <span class="px-2 py-0.5 rounded-md bg-black/75 backdrop-blur-sm text-amber-300 text-[10px] font-bold border border-amber-400/40">
+            Foto #${index + 1}
+          </span>
+        </div>
+        <div class="absolute top-2 right-2">
+          <button type="button" onclick="removeSpacePhoto(${index})" title="Hapus foto ini" class="w-7 h-7 rounded-full bg-red-600/90 hover:bg-red-700 text-white flex items-center justify-center shadow-lg transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+
+        <!-- Caption Bar -->
+        <div class="p-2.5 bg-white border-t border-slate-100 flex items-center justify-between gap-2">
+          <input type="text" value="${photo.caption || ''}" onchange="updatePhotoCaption(${index}, this.value)" placeholder="Keterangan foto..." class="w-full text-xs text-slate-700 bg-slate-50 px-2 py-1 rounded border border-slate-200 focus:bg-white focus:outline-none focus:ring-1 focus:ring-red-700" />
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function updatePhotoCaption(index, newCaption) {
+  if (activeSpaceDraftPhotos[index]) {
+    activeSpaceDraftPhotos[index].caption = newCaption.trim();
+  }
+}
+
+async function handleSpacePhotoInput(files) {
+  if (!files || files.length === 0) return;
+  const currentTotal = activeSpaceDraftPhotos.length;
+  const remaining = 3 - currentTotal;
+
+  if (remaining <= 0) {
+    alert("Maksimal 3 foto kegiatan silaturahmi. Anda harus menghapus salah satu foto yang ada terlebih dahulu jika ingin mengganti.");
+    return;
+  }
+
+  if (files.length > remaining) {
+    alert(`Anda memilih ${files.length} foto, namun kuota tersisa hanya ${remaining} foto. Hanya ${remaining} foto pertama yang akan diproses (maksimal 3 foto per anggota).`);
+  }
+
+  const filesToProcess = Array.from(files).slice(0, remaining);
+
+  for (const file of filesToProcess) {
+    try {
+      const compressedUrl = await compressImage(file, 800, 800, 0.72);
+      activeSpaceDraftPhotos.push({
+        id: `foto-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+        url: compressedUrl,
+        caption: file.name.replace(/\.[^/.]+$/, "").substring(0, 40),
+        waktu: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
+      });
+    } catch (err) {
+      console.error("Gagal mengompresi foto:", err);
+    }
+  }
+
+  const fileInput = document.getElementById("spaceFileInput");
+  if (fileInput) fileInput.value = "";
+
+  renderSpacePhotoGallery();
+}
+
+function removeSpacePhoto(index) {
+  if (confirm("Hapus foto kegiatan ini?")) {
+    activeSpaceDraftPhotos.splice(index, 1);
+    renderSpacePhotoGallery();
+  }
+}
+
+function saveMemberSpace() {
+  if (!activeSpaceMemberId) return;
+
+  const members = getStoredMembers();
+  const memberIndex = members.findIndex(m => m.id === activeSpaceMemberId);
+  if (memberIndex === -1) {
+    alert("Data anggota tidak ditemukan.");
+    return;
+  }
+
+  const statusInput = document.getElementById("spaceStatusInput");
+  const newStatus = statusInput ? statusInput.value.trim() : "";
+
+  // Strictly enforce max 3 photos
+  const finalPhotos = activeSpaceDraftPhotos.slice(0, 3);
+
+  const now = new Date();
+  const timeFormatted = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) + ', ' + 
+    now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+
+  members[memberIndex].statusSilaturahmi = newStatus;
+  members[memberIndex].statusWaktu = timeFormatted;
+  members[memberIndex].fotoKegiatan = finalPhotos;
+
+  saveMembers(members);
+
+  // Refresh directory
+  renderMembersDirectory();
+
+  if (typeof confetti === "function") {
+    confetti({ particleCount: 50, spread: 50, origin: { y: 0.6 } });
+  }
+
+  alert("Alhamdulillah! Status dan foto kegiatan silaturahmi berhasil disimpan ke Space Anda.");
+  closeMemberSpace();
+}
+
+// Lightbox modal handler
+function openPhotoLightbox(imgSrc, caption = "") {
+  const modal = document.getElementById("modalPhotoLightbox");
+  const imgEl = document.getElementById("lightboxImage");
+  const capEl = document.getElementById("lightboxCaption");
+
+  if (!modal || !imgEl) return;
+  imgEl.src = imgSrc;
+  if (capEl) capEl.textContent = caption || "Dokumentasi Kegiatan Silaturahmi IKEIS Jabodetabek";
+  modal.classList.remove("hidden");
+}
+
+function closePhotoLightbox() {
+  const modal = document.getElementById("modalPhotoLightbox");
+  if (modal) modal.classList.add("hidden");
+}
+
+// Quick selector modal to open Space for any member
+function promptSelectMemberForSpace() {
+  const modal = document.getElementById("modalSelectMemberSpace");
+  const selectEl = document.getElementById("selectMemberSpaceDropdown");
+  if (!modal || !selectEl) return;
+
+  const members = getStoredMembers();
+  selectEl.innerHTML = members.map(m => `
+    <option value="${m.id}">[${m.id}] ${m.nama} (${m.domisili})</option>
+  `).join("");
+
+  modal.classList.remove("hidden");
+}
+
+function closeSelectMemberSpaceModal() {
+  const modal = document.getElementById("modalSelectMemberSpace");
+  if (modal) modal.classList.add("hidden");
+}
+
+function submitSelectMemberSpace() {
+  const selectEl = document.getElementById("selectMemberSpaceDropdown");
+  if (!selectEl) return;
+  const selectedId = selectEl.value;
+  closeSelectMemberSpaceModal();
+  if (selectedId) {
+    openMemberSpace(selectedId);
+  }
+}
+
+function openMemberSpaceFromKta() {
+  const currentId = document.getElementById("ktaCardId")?.textContent?.trim();
+  closeKtaModal();
+  if (currentId) {
+    openMemberSpace(currentId);
   }
 }
 
