@@ -271,4 +271,70 @@ html {
   -webkit-backdrop-filter: blur(10px);
 }
 
+/* =====================================================================
+   FOTO DIRI KTA PROPORSIONAL (3:4 PASFOTO RESMI)
+   ===================================================================== */
+.kta-photo-box {
+  width: 74px;
+  height: 98px;
+  aspect-ratio: 3 / 4;
+  border-radius: 8px;
+  border: 2px solid #fbbf24;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+  background: #0f172a;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.kta-photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 480px) {
+  .kta-photo-box {
+    width: 62px;
+    height: 82px;
+  }
+}
+
+/* Upload Pasfoto Box pada Form Pendaftaran */
+.reg-photo-preview {
+  width: 105px;
+  height: 140px;
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  border: 2px dashed #991b1b;
+  background-color: #fef2f2;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.reg-photo-preview:hover {
+  border-color: #7f1d1d;
+  background-color: #fee2e2;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px -3px rgba(153, 27, 27, 0.2);
+}
+
+.reg-photo-preview.has-photo {
+  border-style: solid;
+  border-color: #d97706;
+  border-width: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
 

@@ -79,6 +79,50 @@ function generateSampleSilaturahmiPhoto(title, sub, iconType = "ukhuwah") {
   return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
 }
 
+// HELPER SVG GENERATOR UNTUK PASFOTO RESMI KTA (RASIO 3:4 PROPORSIONAL)
+function generateSamplePasfoto(nama, gender = "Laki-laki") {
+  const cleanNama = (nama || "Anggota").trim();
+  const initials = cleanNama.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase() || "IK";
+  const isFemale = gender === "Perempuan";
+  
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
+    <defs>
+      <linearGradient id="pas_${initials}" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#4c0519"/>
+        <stop offset="60%" stop-color="#1e0508"/>
+        <stop offset="100%" stop-color="#020617"/>
+      </linearGradient>
+    </defs>
+    <!-- Background Merah-Hitam Simalungun -->
+    <rect width="300" height="400" fill="url(#pas_${initials})"/>
+    <circle cx="150" cy="145" r="95" fill="rgba(217, 119, 6, 0.15)"/>
+    <rect x="10" y="10" width="280" height="380" rx="8" fill="none" stroke="rgba(251, 191, 36, 0.35)" stroke-width="2"/>
+    
+    <!-- Torso / Pakaian Adat Formal -->
+    <path d="M40 375 C45 260 255 260 260 375 Z" fill="#991b1b"/>
+    <path d="M110 375 L150 280 L190 375 Z" fill="#ffffff" opacity="0.95"/>
+    <path d="M142 280 L158 280 L155 375 L145 375 Z" fill="#0f172a"/>
+    <path d="M125 310 L175 310 L150 350 Z" fill="#d97706" opacity="0.85"/>
+
+    <!-- Kepala / Silhouette -->
+    <circle cx="150" cy="140" r="56" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+
+    <!-- Peci / Hijab -->
+    ${isFemale ? 
+      '<path d="M85 140 C85 65 215 65 215 140 C215 220 85 220 85 140 Z" fill="#4c0519" opacity="0.85"/><path d="M100 135 C100 85 200 85 200 135 C200 195 100 195 100 135 Z" fill="#7f1d1d" opacity="0.9"/>' : 
+      '<rect x="92" y="78" width="116" height="42" rx="6" fill="#09090b" stroke="#fbbf24" stroke-width="1.5"/><rect x="92" y="112" width="116" height="6" fill="#d97706"/>'
+    }
+
+    <!-- Inisial Wajah / Identitas -->
+    <text x="150" y="${isFemale ? 150 : 160}" text-anchor="middle" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="28" fill="#1e0508">${initials}</text>
+    
+    <!-- Label KTA -->
+    <rect x="0" y="376" width="300" height="24" fill="#000000"/>
+    <text x="150" y="392" text-anchor="middle" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-size="10" font-weight="bold" fill="#fbbf24" letter-spacing="1">PASFOTO KTA IKEIS</text>
+  </svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+
 // 3. SEED DATA ANGGOTA IKEIS JABODETABEK
 const SEED_MEMBERS = [
   {
@@ -86,6 +130,7 @@ const SEED_MEMBERS = [
     nama: "H. Zulkifli Damanik, S.E., M.M.",
     marga: "Damanik",
     jenisKelamin: "Laki-laki",
+    fotoDiri: generateSamplePasfoto("H. Zulkifli Damanik", "Laki-laki"),
     domisili: "Jakarta Selatan",
     alamat: "Jl. Tebet Barat Dalam No. 18, Tebet",
     kecamatanAsal: "Tapian Dolok",
@@ -124,6 +169,7 @@ const SEED_MEMBERS = [
     nama: "Dr. Hj. Nurasyiah Saragih, M.Pd.",
     marga: "Saragih Garingging",
     jenisKelamin: "Perempuan",
+    fotoDiri: generateSamplePasfoto("Dr. Hj. Nurasyiah Saragih", "Perempuan"),
     domisili: "Kota Depok",
     alamat: "Pesona Depok Estate Blok B3, Sukmajaya",
     kecamatanAsal: "Raya",
@@ -156,6 +202,7 @@ const SEED_MEMBERS = [
     nama: "M. Faisal Purba, S.T.",
     marga: "Purba Dasuha",
     jenisKelamin: "Laki-laki",
+    fotoDiri: generateSamplePasfoto("M. Faisal Purba", "Laki-laki"),
     domisili: "Kota Bekasi",
     alamat: "Harapan Indah Regency Blok CF No. 12",
     kecamatanAsal: "Bandar",
@@ -182,6 +229,7 @@ const SEED_MEMBERS = [
     nama: "Ustadz H. Ahmad Ridwan Sinaga, Lc.",
     marga: "Sinaga Dadihur",
     jenisKelamin: "Laki-laki",
+    fotoDiri: generateSamplePasfoto("Ustadz H. Ahmad Ridwan Sinaga", "Laki-laki"),
     domisili: "Jakarta Timur",
     alamat: "Kavling DKI Pondok Kelapa, Duren Sawit",
     kecamatanAsal: "Gunung Malela",
@@ -208,6 +256,7 @@ const SEED_MEMBERS = [
     nama: "dr. Siti Rahmah Lubis Damanik, Sp.A",
     marga: "Lubis / Suami Damanik",
     jenisKelamin: "Perempuan",
+    fotoDiri: generateSamplePasfoto("dr. Siti Rahmah Lubis Damanik", "Perempuan"),
     domisili: "Kota Tangerang Selatan",
     alamat: "BSD City, Cluster Foresta Blok B8, Serpong",
     kecamatanAsal: "Siantar",
@@ -227,6 +276,7 @@ const SEED_MEMBERS = [
     nama: "Bambang Suhendra Purba, S.H.",
     marga: "Purba Tambak",
     jenisKelamin: "Laki-laki",
+    fotoDiri: generateSamplePasfoto("Bambang Suhendra Purba", "Laki-laki"),
     domisili: "Kota Bogor",
     alamat: "Villa Indah Pajajaran, Bogor Timur",
     kecamatanAsal: "Bosar Maligas",
@@ -246,6 +296,7 @@ const SEED_MEMBERS = [
     nama: "Rahmad Hidayat Sinaga",
     marga: "Sinaga",
     jenisKelamin: "Laki-laki",
+    fotoDiri: generateSamplePasfoto("Rahmad Hidayat Sinaga", "Laki-laki"),
     domisili: "Kota Tangerang",
     alamat: "Moderland Townhouse Blok C5, Cipondoh",
     kecamatanAsal: "Ujung Padang",
@@ -265,6 +316,7 @@ const SEED_MEMBERS = [
     nama: "Fatimah Zahra Saragih",
     marga: "Saragih Simarmata",
     jenisKelamin: "Perempuan",
+    fotoDiri: generateSamplePasfoto("Fatimah Zahra Saragih", "Perempuan"),
     domisili: "Jakarta Pusat",
     alamat: "Cempaka Putih Timur VII No. 9",
     kecamatanAsal: "Tanah Jawa",
@@ -388,6 +440,17 @@ function getStoredMembers() {
       if (typeof m.statusSilaturahmi === "undefined") m.statusSilaturahmi = "";
       if (typeof m.statusWaktu === "undefined") m.statusWaktu = "";
     }
+
+    // Migration: populate fotoDiri if missing
+    if (!m.fotoDiri) {
+      if (seed && seed.fotoDiri) {
+        m.fotoDiri = seed.fotoDiri;
+      } else {
+        m.fotoDiri = generateSamplePasfoto(m.nama, m.jenisKelamin);
+      }
+      needsUpdate = true;
+    }
+
     return m;
   });
 
@@ -438,6 +501,57 @@ function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.72) {
   });
 }
 
+// State Pasfoto Pendaftaran Baru
+let registeredPhotoBase64 = "";
+
+async function handleRegFotoInput(files) {
+  if (!files || files.length === 0) return;
+  const file = files[0];
+  try {
+    const compressed = await compressImage(file, 600, 800, 0.78);
+    registeredPhotoBase64 = compressed;
+
+    const imgEl = document.getElementById("regFotoImg");
+    const placeholderEl = document.getElementById("regFotoPlaceholder");
+    const previewBox = document.getElementById("regFotoPreviewBox");
+    const btnHapus = document.getElementById("btnHapusFotoDiri");
+
+    if (imgEl) {
+      imgEl.src = compressed;
+      imgEl.classList.remove("hidden");
+    }
+    if (placeholderEl) placeholderEl.classList.add("hidden");
+    if (previewBox) previewBox.classList.add("has-photo");
+    if (btnHapus) btnHapus.classList.remove("hidden");
+  } catch (err) {
+    console.error("Gagal membaca foto diri:", err);
+    alert("Gagal memproses berkas foto. Silakan coba kembali.");
+  }
+}
+
+function resetFotoDiriReg(event) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  registeredPhotoBase64 = "";
+  const fileInput = document.getElementById("regFotoInput");
+  if (fileInput) fileInput.value = "";
+
+  const imgEl = document.getElementById("regFotoImg");
+  const placeholderEl = document.getElementById("regFotoPlaceholder");
+  const previewBox = document.getElementById("regFotoPreviewBox");
+  const btnHapus = document.getElementById("btnHapusFotoDiri");
+
+  if (imgEl) {
+    imgEl.src = "";
+    imgEl.classList.add("hidden");
+  }
+  if (placeholderEl) placeholderEl.classList.remove("hidden");
+  if (previewBox) previewBox.classList.remove("has-photo");
+  if (btnHapus) btnHapus.classList.add("hidden");
+}
+
 function getStoredForum() {
   const data = localStorage.getItem("ikeis_forum");
   if (!data) {
@@ -463,6 +577,12 @@ document.addEventListener("DOMContentLoaded", () => {
   renderAgendaCards();
   initRegistrationForm();
   updateLiveStatsHeader();
+
+  // Set sample KTA photo preview in Bagian Pendaftaran
+  const sampleFoto = document.getElementById("sampleKtaFoto");
+  if (sampleFoto) {
+    sampleFoto.src = generateSamplePasfoto("H. Zulkifli Damanik", "Laki-laki");
+  }
 });
 
 // Populate Dropdown Kecamatan Simalungun (32 Kecamatan)
@@ -671,6 +791,7 @@ function initRegistrationForm() {
       nama: nama,
       marga: marga,
       jenisKelamin: jenisKelamin,
+      fotoDiri: registeredPhotoBase64 || generateSamplePasfoto(nama, jenisKelamin),
       tempatLahir: tempatLahir,
       tanggalLahir: tanggalLahir,
       domisili: domisili,
@@ -704,8 +825,9 @@ function initRegistrationForm() {
       });
     }
 
-    // Reset Form
+    // Reset Form & Photo Preview
     form.reset();
+    resetFotoDiriReg();
 
     // Render & Open KTA Modal
     showKtaModal(newMember, true);
@@ -727,6 +849,12 @@ function showKtaModal(member, isNew = false) {
   document.getElementById("ktaCardAsal").textContent = `Kec. ${member.kecamatanAsal}${member.nagoriAsal && member.nagoriAsal !== '-' ? ' (' + member.nagoriAsal + ')' : ''}`;
   document.getElementById("ktaCardProfesi").textContent = member.profesi;
   document.getElementById("ktaCardTglGabung").textContent = member.tanggalGabung || "2026";
+  
+  // Set Pasfoto Resmi KTA Proporsional
+  const ktaFoto = document.getElementById("ktaCardFoto");
+  if (ktaFoto) {
+    ktaFoto.src = member.fotoDiri || generateSamplePasfoto(member.nama, member.jenisKelamin);
+  }
   
   // Title indicator
   const titleNotice = document.getElementById("ktaModalNotice");
@@ -827,9 +955,15 @@ function renderMembersDirectory() {
           <!-- Header Card -->
           <div class="flex items-start justify-between gap-3 mb-3">
             <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-red-900 via-red-950 to-slate-950 text-amber-300 font-bold flex items-center justify-center text-base shadow-sm shrink-0 border border-amber-400/40">
-                ${initials}
-              </div>
+              ${m.fotoDiri ? `
+                <div class="w-12 h-14 rounded-xl bg-slate-900 overflow-hidden shadow-sm shrink-0 border-2 border-amber-400/80">
+                  <img src="${m.fotoDiri}" alt="${m.nama}" class="w-full h-full object-cover" />
+                </div>
+              ` : `
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-red-900 via-red-950 to-slate-950 text-amber-300 font-bold flex items-center justify-center text-base shadow-sm shrink-0 border border-amber-400/40">
+                  ${initials}
+                </div>
+              `}
               <div>
                 <h4 class="font-bold text-slate-900 text-base leading-snug group-hover:text-red-800 transition">${m.nama}</h4>
                 <div class="flex items-center gap-2 mt-0.5">
@@ -946,7 +1080,13 @@ function openMemberSpace(memberId) {
   // Set member profile details in modal
   const initials = member.nama.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase();
   const avatarEl = document.getElementById("spaceMemberAvatar");
-  if (avatarEl) avatarEl.textContent = initials;
+  if (avatarEl) {
+    if (member.fotoDiri) {
+      avatarEl.innerHTML = `<img src="${member.fotoDiri}" alt="${member.nama}" class="w-full h-full object-cover rounded-2xl" />`;
+    } else {
+      avatarEl.textContent = initials;
+    }
+  }
 
   const namaEl = document.getElementById("spaceMemberNama");
   if (namaEl) namaEl.textContent = member.nama;
