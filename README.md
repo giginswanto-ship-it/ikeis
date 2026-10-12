@@ -88,4 +88,9 @@ node server.js
 Kemudian buka browser di `http://localhost:3000`.
 
 ---
+
+### 🌐 Pengembang & Dukungan Teknis
+**Developed and supported by [dutaglobaltech.com](https://dutaglobaltech.com)**
+
+---
 *Habonaron Do Bona • Sapangambei Manoktok Hitei*
