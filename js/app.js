@@ -2859,3 +2859,31 @@ function adminResetToDefaultData() {
 
   alert("Database dan materi web IKEIS telah berhasil direset ke pengaturan default!");
 }
+
+// =====================================================================
+// BAGIKAN LINK WEBSITE MELALUI WHATSAPP
+// =====================================================================
+function shareWebViaWhatsApp() {
+  const currentUrl = window.location.href;
+  const message = 
+`assalamualaikum warahmatullahi wabarakatuh, 
+
+Mari bergabung dan jalin silaturahmi bersama keluarga besar Ikatan Keluarga Islam Simalungun (IKEIS) Wilayah Jabodetabek.
+
+Portal Resmi IKEIS Jabodetabek:
+- Registrasi Anggota & KTA Digital
+- Direktori Warga Simalungun Perantauan
+- Dinding Ukhuwah & Kabar Silaturahmi
+- Kas Solidaritas Kemalangan (Baitul Mal) & Ambulans
+- Agenda Pertemuan & Pengajian Rutin
+
+Kunjungi tautan website resmi berikut:
+${currentUrl}
+
+Habonaron Do Bona.
+Horas, Bujur!`;
+
+  const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+  window.open(waUrl, "_blank");
+}
+
