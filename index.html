@@ -204,60 +204,73 @@
           </div>
         </div>
 
-        <!-- Right Visual / Featured KTA Card Preview -->
+        <!-- Right Visual: Maklumat & 4 Pilar Ukhuwah IKEIS (Contoh KTA dipindahkan ke Bagian Pendaftaran) -->
         <div class="lg:col-span-5 flex flex-col items-center">
-          <div class="relative w-full max-w-md">
-            <div class="absolute -top-3 -right-3 bg-amber-500 text-slate-950 font-black text-[10px] tracking-wider uppercase px-3 py-1 rounded-full shadow-md z-20">
-              KTA Digital IKEIS
+          <div class="w-full max-w-md bg-gradient-to-b from-[#160408]/95 via-slate-950/95 to-black/95 backdrop-blur-md p-6 sm:p-7 rounded-3xl border-2 border-red-900/50 shadow-2xl space-y-5 relative overflow-hidden">
+            <!-- Gorga border top stripe -->
+            <div class="simalungun-border-stripe absolute top-0 left-0 right-0"></div>
+
+            <!-- Header Card -->
+            <div class="flex items-center gap-3.5 pt-2 border-b border-red-950 pb-4">
+              <div class="w-12 h-12 rounded-xl bg-white p-1 flex items-center justify-center shadow-md border border-amber-400 overflow-hidden shrink-0">
+                <img src="assets/logo_ikeis.jpg" alt="Logo Resmi IKEIS" class="w-full h-full object-contain" />
+              </div>
+              <div>
+                <span class="text-[10px] font-mono uppercase tracking-widest text-amber-400 block font-bold">Portal Silaturahmi</span>
+                <h3 class="font-serif font-black text-base text-white">4 Pilar Ukhuwah Perantau</h3>
+              </div>
             </div>
-            
-            <!-- Sample Interactive KTA Preview -->
-            <div class="kta-card cursor-pointer transform hover:scale-[1.02] transition-transform" onclick="viewMemberKta('IKEIS-JBD-2026-001')">
-              <!-- Top Row -->
-              <div class="flex items-start justify-between relative z-10">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-11 h-11 rounded-xl bg-white p-0.5 flex items-center justify-center shadow-md overflow-hidden border border-amber-400">
-                    <img src="assets/logo_ikeis.jpg" alt="Logo Resmi IKEIS" class="w-full h-full object-contain" />
-                  </div>
-                  <div>
-                    <h3 class="font-serif font-black text-sm tracking-wide text-amber-200">IKEIS JABODETABEK</h3>
-                    <p class="text-[10px] text-amber-100/80 tracking-wider">KARTU TANDA ANGGOTA RESMI</p>
-                  </div>
-                </div>
-                <div class="kta-chip"></div>
-              </div>
 
-              <!-- Middle Row: Member Info -->
-              <div class="my-3 relative z-10 space-y-1">
-                <div class="text-[11px] font-mono text-amber-300 tracking-widest font-semibold">IKEIS-JBD-2026-001</div>
-                <div class="text-base sm:text-lg font-extrabold text-white tracking-wide truncate">H. Zulkifli Damanik, S.E.</div>
-                <div class="text-xs text-amber-100/90 flex items-center gap-2">
-                  <span>Marga: Damanik</span>
-                  <span>•</span>
-                  <span>Kec. Tapian Dolok</span>
+            <!-- List 4 Pilar -->
+            <div class="space-y-3 text-xs">
+              <div class="flex items-start gap-3 p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-amber-400/50 transition">
+                <div class="w-7 h-7 rounded-lg bg-red-900 text-amber-300 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                  1
                 </div>
-              </div>
-
-              <!-- Bottom Row -->
-              <div class="flex items-end justify-between relative z-10 pt-2 border-t border-amber-500/40 text-[10px]">
                 <div>
-                  <span class="text-amber-200 block">Domisili Perantauan</span>
-                  <span class="font-bold text-white text-xs">Jakarta Selatan</span>
+                  <h4 class="font-bold text-white text-xs">Sambung Rasa & Pengajian</h4>
+                  <p class="text-[11px] text-slate-300 mt-0.5">Temu ukhuwah dwi-mingguan mempererat silaturahmi keluarga Muslim perantauan.</p>
                 </div>
-                <div class="text-right">
-                  <span class="text-amber-300 block font-bold">HABONARON DO BONA</span>
-                  <span class="text-slate-300">Berlaku Seumur Hidup</span>
+              </div>
+
+              <div class="flex items-start gap-3 p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-amber-400/50 transition">
+                <div class="w-7 h-7 rounded-lg bg-amber-500 text-slate-950 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                  2
+                </div>
+                <div>
+                  <h4 class="font-bold text-white text-xs">Kas Solidaritas & Peduli Duka</h4>
+                  <p class="text-[11px] text-slate-300 mt-0.5">Bantuan fardhu kifayah, ambulans darurat, & santunan kemalangan bagi sesama perantau.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-amber-400/50 transition">
+                <div class="w-7 h-7 rounded-lg bg-red-950 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-red-700">
+                  3
+                </div>
+                <div>
+                  <h4 class="font-bold text-white text-xs">Direktori Warga 32 Kecamatan</h4>
+                  <p class="text-[11px] text-slate-300 mt-0.5">Database terpadu pencarian sanak saudara sedaerah asal di seluruh Jabodetabek.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-amber-400/50 transition">
+                <div class="w-7 h-7 rounded-lg bg-slate-900 text-amber-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 border border-amber-400/40">
+                  4
+                </div>
+                <div>
+                  <h4 class="font-bold text-white text-xs">Pelestarian Falsafah Luhur</h4>
+                  <p class="text-[11px] text-slate-300 mt-0.5">Menjunjung moral <em>Habonaron Do Bona</em> & kesantunan adat bagi generasi muda.</p>
                 </div>
               </div>
             </div>
 
-            <!-- Callout Note under card -->
-            <div class="mt-4 p-3.5 bg-slate-900/85 backdrop-blur-md rounded-xl border border-white/20 text-xs text-slate-200 flex items-center justify-between shadow-lg">
-              <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>Daftar sekarang untuk menerbitkan KTA Digital Anda secara instan!</span>
-              </div>
-              <a href="#pendaftaran" class="font-bold text-amber-400 hover:text-amber-300 shrink-0 underline ml-2">Daftar &rarr;</a>
+            <!-- Footer Card Note -->
+            <div class="pt-2 border-t border-red-950 flex items-center justify-between text-[11px]">
+              <span class="text-slate-400">Belum terdaftar?</span>
+              <a href="#pendaftaran" class="font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 group">
+                <span>Daftarkan Diri & Keluarga</span>
+                <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+              </a>
             </div>
           </div>
         </div>
@@ -576,6 +589,69 @@
         <p class="text-sm text-slate-600 max-w-xl mx-auto">
           Mari daftarkan diri dan keluarga Anda untuk memperkuat ukhuwah. Setelah mendaftar, KTA Digital resmi dengan ID keanggotaan unik akan langsung diterbitkan secara otomatis.
         </p>
+      </div>
+
+      <!-- Pratinjau KTA Digital Resmi (Dipindahkan dari Beranda) -->
+      <div class="mb-10 bg-gradient-to-br from-[#140407] via-slate-950 to-black p-6 sm:p-8 rounded-3xl border border-red-900/60 shadow-xl text-white">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          <div class="md:col-span-6 space-y-3">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950 border border-red-700 text-amber-300 text-[11px] font-bold uppercase tracking-wider">
+              Contoh Kartu Tanda Anggota (KTA) Digital
+            </span>
+            <h3 class="text-xl sm:text-2xl font-black font-serif text-white">
+              Diterbitkan Otomatis Setelah Registrasi
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Setiap warga yang mendaftar akan langsung memperoleh KTA Digital resmi dengan nomor ID unik keanggotaan. Kartu dapat diunduh/dicetak (format PDF) serta dibagikan langsung ke WhatsApp.
+            </p>
+            <div class="flex flex-wrap items-center gap-4 pt-1 text-xs text-amber-300">
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> ID Unik Otomatis</span>
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Cetak PDF Langsung</span>
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Bagikan ke WhatsApp</span>
+            </div>
+          </div>
+          <div class="md:col-span-6 flex justify-center">
+            <!-- Sample Interactive KTA Preview -->
+            <div class="kta-card cursor-pointer transform hover:scale-[1.02] transition-transform select-none shadow-2xl" onclick="viewMemberKta('IKEIS-JBD-2026-001')">
+              <!-- Top Row -->
+              <div class="flex items-start justify-between relative z-10">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-10 h-10 rounded-xl bg-white p-0.5 flex items-center justify-center shadow-md overflow-hidden border border-amber-400">
+                    <img src="assets/logo_ikeis.jpg" alt="Logo Resmi IKEIS" class="w-full h-full object-contain" />
+                  </div>
+                  <div>
+                    <h3 class="font-serif font-black text-xs tracking-wide text-amber-200">IKEIS JABODETABEK</h3>
+                    <p class="text-[9px] text-amber-100/80 tracking-wider">KARTU TANDA ANGGOTA RESMI</p>
+                  </div>
+                </div>
+                <div class="kta-chip"></div>
+              </div>
+
+              <!-- Middle Row: Member Info -->
+              <div class="my-2.5 relative z-10 space-y-0.5">
+                <div class="text-[10px] font-mono text-amber-300 tracking-widest font-semibold">IKEIS-JBD-2026-001</div>
+                <div class="text-base font-extrabold text-white tracking-wide truncate">H. Zulkifli Damanik, S.E.</div>
+                <div class="text-[11px] text-amber-100/90 flex items-center gap-2">
+                  <span>Marga: Damanik</span>
+                  <span>•</span>
+                  <span>Kec. Tapian Dolok</span>
+                </div>
+              </div>
+
+              <!-- Bottom Row -->
+              <div class="flex items-end justify-between relative z-10 pt-2 border-t border-amber-500/40 text-[9px]">
+                <div>
+                  <span class="text-amber-200 block text-[9px]">Domisili Perantauan</span>
+                  <span class="font-bold text-white text-[11px]">Jakarta Selatan</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-amber-300 block font-bold text-[9px]">HABONARON DO BONA</span>
+                  <span class="text-slate-300 text-[9px]">Berlaku Seumur Hidup</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Card Form -->
