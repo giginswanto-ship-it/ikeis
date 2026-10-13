@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#991b1b" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <title>IKEIS Jabodetabek - Ikatan Keluarga Islam Simalungun</title>
   <meta name="description" content="Portal Resmi Ikatan Keluarga Islam Simalungun (IKEIS) Wilayah Jabodetabek. Sarana Informasi, Komunikasi, Pendaftaran Anggota, dan Penguatan Ukhuwah Habonaron Do Bona." />
   <link rel="icon" type="image/jpeg" href="assets/logo_ikeis.jpg" />
@@ -170,8 +172,8 @@
           </a>
         </div>
 
-        <!-- Mobile Menu Toggle Button -->
-        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 focus:outline-none">
+        <!-- Mobile Menu Toggle Button (Target Sentuh Minimal 48px x 48px) -->
+        <button onclick="toggleMobileMenu()" aria-label="Buka Menu Navigasi" class="md:hidden w-12 h-12 rounded-xl text-slate-700 hover:bg-slate-100 flex items-center justify-center focus:outline-none transition active:scale-95">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         </button>
       </div>
