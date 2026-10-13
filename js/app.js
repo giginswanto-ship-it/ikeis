@@ -677,6 +677,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderKorwilCards();
   renderPengurusCards();
   renderPengumumanCards();
+  renderBeritaCards();
   initRegistrationForm();
   updateLiveStatsHeader();
   populateAdminDropdowns();
@@ -3348,5 +3349,341 @@ Habonaron Do Bona. Horas, Bujur!`;
   const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
   window.open(waUrl, "_blank");
 }
+
+// =====================================================================
+// DATA MASTER & LOGIKA BERITA IKEIS SE-INDONESIA (PUBLIKASI AKTUAL)
+// =====================================================================
+
+const DATA_BERITA_IKEIS = [
+  {
+    id: "berita-1",
+    judul: "Wali Kota Pematangsiantar Terima Audiensi Pengurus IKEIS, Perkuat Kolaborasi Rawat Kota Toleran",
+    kategori: "sumut",
+    wilayah: "Kota Pematangsiantar, Sumut",
+    sumber: "Waspada.id & Diskominfo Pemko Siantar",
+    tanggal: "28 Juni 2025",
+    waktuRilis: "28 Juni 2025 • Berita Resmi",
+    gambar: null,
+    temaGambar: "audiensi",
+    ringkasan: "Wali Kota Pematangsiantar menyambut hangat audiensi jajaran Pengurus IKEIS Kota Pematangsiantar di Rumah Dinas Wali Kota. Pertemuan strategis ini mempertegas peran aktif IKEIS dalam menjaga kerukunan antarumat beragama dan mempertahankan status Pematangsiantar sebagai salah satu kota paling toleran di Indonesia.",
+    isiLengkap: `PEMATANGSIANTAR — Wali Kota Pematangsiantar menerima kunjungan audiensi resmi dari jajaran pengurus Ikatan Keluarga Islam Simalungun (IKEIS) Kota Pematangsiantar di Rumah Dinas Wali Kota.
+
+Dalam pertemuan tersebut, Wali Kota mengapresiasi keberadaan IKEIS sebagai wadah paguyuban yang aktif membina kerukunan umat beragama serta melestarikan adat istiadat dan nilai luhur budaya Simalungun. Wali Kota mengajak IKEIS untuk terus bersinergi dengan pemerintah kota dalam menyukseskan berbagai program kemasyarakatan, keagamaan, dan pengentasan kemiskinan.
+
+Ketua IKEIS Pematangsiantar, Drs. Lisman Saragih, M.M., menyatakan komitmen penuh keluarga besar IKEIS untuk senantiasa mendukung kebijakan pemerintah daerah demi kemaslahatan masyarakat luas. "IKEIS siap menjadi garda terdepan merajut keharmonisan sosial, sejalan dengan falsafah Habonaron Do Bona yang mengedepankan kebenaran dan keteladanan," ungkapnya.`
+  },
+  {
+    id: "berita-2",
+    judul: "IKEIS Kabupaten Rokan Hulu Peringati Milad ke-18 di Desa Giti, Dihadiri Pengurus Lintas Daerah dan Forkopimda",
+    kategori: "riau",
+    wilayah: "Rokan Hulu, Riau",
+    sumber: "Sergap Target & Warta Riau",
+    tanggal: "14 Desember 2025",
+    waktuRilis: "14 Desember 2025 • Milad Organisasi",
+    gambar: null,
+    temaGambar: "milad",
+    ringkasan: "Peringatan hari ulang tahun ke-18 IKEIS Kabupaten Rokan Hulu berlangsung khidmat dan meriah di Desa Giti, Kecamatan Kabun. Momentum bersejarah ini dihadiri perwakilan cabang IKEIS dari Kandis, Bengkalis, Rohil, Pinggir, Bagan Batu, Pekanbaru, hingga Pelalawan, serta jajaran kepolisian dan aparat desa.",
+    isiLengkap: `ROKAN HULU — Ikatan Keluarga Islam Simalungun (IKEIS) se-Kabupaten Rokan Hulu (Rohul), Riau, sukses menggelar peringatan Milad ke-18 yang dipusatkan di Desa Giti, Kecamatan Kabun.
+
+Ketua IKEIS Rohul, Zulhadudin Damanik, menyampaikan rasa syukur dan haru atas soliditas warga perantau Simalungun yang tersebar di perkebunan dan pelosok Riau. Acara ini dihadiri oleh para pimpinan cabang IKEIS se-Provinsi Riau serta unsur Forkopimda setempat, termasuk Kepala Desa Giti H. Wagiran dan Kapolsek Kabun.
+
+Rangkaian acara diawali dengan prosesi tarian adat Somba khas Simalungun, penyerahan hidangan adat, tausiyah keislaman, doa bersama, serta santunan bagi keluarga dhuafa. Peringatan ini menegaskan bahwa nilai Habonaron Do Bona tetap mekar subur di tanah perantauan bumi Melayu Lancang Kuning.`
+  },
+  {
+    id: "berita-3",
+    judul: "Pererat Silaturahmi Perantau, IKEIS Pelalawan Gelar Syukuran HUT dan Prosesi Adat Manurduk",
+    kategori: "riau",
+    wilayah: "Pelalawan, Riau",
+    sumber: "Gemuruh News Riau",
+    tanggal: "20 Oktober 2024",
+    waktuRilis: "20 Oktober 2024 • Kebudayaan & Ukhuwah",
+    gambar: null,
+    temaGambar: "adat",
+    ringkasan: "Keluarga besar IKEIS Kabupaten Pelalawan menyelenggarakan syukuran milad dengan menggelar prosesi adat Manurduk, tausiyah agama, dan santap bersama kuliner khas Simalungun halal. Kegiatan ini mempererat keakraban antarwarga perantauan lintas generasi.",
+    isiLengkap: `PANGKALAN KERINCI — Suasana penuh kekeluargaan menyelimuti syukuran hari jadi Ikatan Keluarga Islam Simalungun (IKEIS) Kabupaten Pelalawan, Riau. Ratusan warga diaspora asal Tanoh Simalungun hadir memadati lokasi acara.
+
+Ketua Panitia Almasih Pasaribu dan Ketua IKEIS Pelalawan S. Saragih memimpin langsung prosesi adat Manurduk (penyerahan makanan kehormatan khas Simalungun) kepada para sesepuh dan tokoh masyarakat. Selain tradisi adat, acara diisi dengan ceramah agama mengenai pentingnya menjaga adab silaturahmi perantau dan kepedulian sosial bagi sesama anak bangsa.
+
+"Melalui IKEIS, kami memastikan anak cucu kami yang lahir di perantauan tidak melupakan bahasa, adat kesantunan Tolu Sahundulan, dan nilai akidah keislaman mereka," ujar S. Saragih.`
+  },
+  {
+    id: "berita-4",
+    judul: "Konsolidasi Akbar Pengurus IKEIS Simalungun: Dorong Kemandirian Ekonomi Umat di 32 Kecamatan",
+    kategori: "sumut",
+    wilayah: "Kabupaten Simalungun, Sumut",
+    sumber: "Hetanews & Sumut Pos",
+    tanggal: "18 Agustus 2025",
+    waktuRilis: "18 Agustus 2025 • Ekonomi Umat",
+    gambar: null,
+    temaGambar: "ekonomi",
+    ringkasan: "DPD IKEIS Kabupaten Simalungun menggelar rapat koordinasi wilayah yang menitikberatkan pada program penguatan ketahanan pangan nagori, koperasi simpan pinjam syariah, dan pembinaan generasi muda Islam di sentra perkebunan serta dataran rendah Simalungun.",
+    isiLengkap: `SIMALUNGUN — Dewan Pengurus Daerah IKEIS Kabupaten Simalungun bersama Pengurus Besar (PB) IKEIS menggelar rapat kerja daerah terpadu di Raya. 
+
+Pertemuan yang dipimpin oleh Ketua IKEIS Kabupaten Simalungun Ir. H. Amran Sinaga, M.Si. ini membahas peta jalan pemberdayaan umat pasca-pandemi, terutama dalam mengoptimalkan potensi pertanian padi, jagung, dan kelapa sawit rakyat di wilayah sentra Muslim seperti Kec. Siantar, Tapian Dolok, Bandar, Bosar Maligas, Gunung Malela, dan Ujung Padang.
+
+IKEIS Simalungun menargetkan pembentukan unit baitul mal di setiap nagori guna memastikan bantuan beasiswa pendidikan anak petani dan penanganan darurat sosial kemalangan dapat berjalan mandiri.`
+  },
+  {
+    id: "berita-5",
+    judul: "Silaturahmi Akbar Perantau Muslim Simalungun se-DKI Jakarta di TMII & Peluncuran KTA Digital",
+    kategori: "jakarta",
+    wilayah: "DKI Jakarta & Jabodetabek",
+    sumber: "Warta Sekretariat IKEIS DKI Jakarta",
+    tanggal: "12 Oktober 2026",
+    waktuRilis: "12 Oktober 2026 • Transformasi Digital",
+    gambar: null,
+    temaGambar: "digital",
+    ringkasan: "Ratusan kepala keluarga perantau Muslim Simalungun menghadiri Silaturahmi Akbar tahunan di TMII Jakarta Timur. Momentum ini diresmikan dengan peluncuran sistem KTA Digital terintegrasi dan kas solidaritas baitul mal perantauan.",
+    isiLengkap: `JAKARTA — Gedung pertemuan kawasan TMII Jakarta Timur dipadati warga Muslim asal Simalungun dalam gelaran Silaturahmi Akbar Warga IKEIS DKI Jakarta.
+
+Ketua Umum IKEIS H. Zulkifli Damanik, S.E., M.M. secara resmi meluncurkan portal digital keanggotaan mandiri yang menerbitkan Kartu Tanda Anggota (KTA) resmi berbarcode unik secara otomatis. Platform ini juga mengintegrasikan sistem kas kemalangan duka cita (Baitul Mal) dan dinding ukhuwah sosial.
+
+"Jarak geografis di ibu kota yang luas tidak boleh menjadi penghalang silaturahmi kita. Dengan teknologi portal ini, setiap ada kabar lelayu atau musibah, seluruh warga perantau dapat langsung terhubung dan menyalurkan bantuan dalam hitungan menit," tegas H. Zulkifli Damanik.`
+  },
+  {
+    id: "berita-6",
+    judul: "DPC IKEIS Mandau–Duri Perkuat Layanan Ambulans Ukhuwah dan Santunan Duka Cita",
+    kategori: "riau",
+    wilayah: "Mandau–Duri, Bengkalis, Riau",
+    sumber: "Portal Informasi Bengkalis Kab",
+    tanggal: "15 Juli 2025",
+    waktuRilis: "15 Juli 2025 • Aksi Kemanusiaan",
+    gambar: null,
+    temaGambar: "sosial",
+    ringkasan: "DPC IKEIS Mandau mengoptimalkan layanan ambulans gratis untuk mengantar warga yang sakit maupun pemulangan jenazah ke kampung halaman di Sumatera Utara, sebagai bukti nyata persaudaraan tak lekang oleh jarak rantau.",
+    isiLengkap: `DURI — Pengurus Cabang Ikatan Keluarga Islam Simalungun (IKEIS) Mandau–Duri, Kabupaten Bengkalis, kembali memperkokoh komitmen sosialnya dengan mengoperasikan armada ambulans siaga ukhuwah 24 jam.
+
+Layanan ini dikhususkan untuk membantu warga perantau asal Simalungun maupun masyarakat sekitar yang membutuhkan transportasi medis darurat ke rumah sakit rujukan di Pekanbaru, hingga pengantaran jenazah bila keluarga berkehendak dimakamkan di kampung halaman Tanoh Simalungun.
+
+Program ini didanai secara gotong royong melalui iuran wajib kas solidaritas anggota yang dikelola secara transparan oleh pengurus cabang IKEIS Mandau.`
+  }
+];
+
+// GENERATOR THUMBNAIL BERITA DENGAN ORNAMEN SIMALUNGUN
+function generateBeritaThumbnail(judul, wilayah, tema) {
+  const cleanJudul = (judul || "Berita IKEIS").slice(0, 32) + "...";
+  let bgGrad1 = "#450a0a";
+  let bgGrad2 = "#0f172a";
+  let iconSvg = '<path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" stroke="#fbbf24" stroke-width="2" fill="none"/>';
+
+  if (tema === "audiensi") {
+    bgGrad1 = "#1e1b4b";
+    bgGrad2 = "#450a0a";
+  } else if (tema === "milad") {
+    bgGrad1 = "#581c87";
+    bgGrad2 = "#1e0508";
+  } else if (tema === "adat") {
+    bgGrad1 = "#78350f";
+    bgGrad2 = "#450a0a";
+  }
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="600" height="360">
+    <defs>
+      <linearGradient id="bg_news_${tema}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="${bgGrad1}"/>
+        <stop offset="100%" stop-color="${bgGrad2}"/>
+      </linearGradient>
+    </defs>
+    <rect width="600" height="360" fill="url(#bg_news_${tema})"/>
+    <circle cx="500" cy="80" r="140" fill="rgba(217, 119, 6, 0.15)"/>
+    <circle cx="100" cy="280" r="120" fill="rgba(153, 27, 27, 0.25)"/>
+    
+    <!-- Stripe Simalungun Header -->
+    <rect x="0" y="0" width="600" height="8" fill="#991b1b"/>
+    <rect x="200" y="0" width="200" height="8" fill="#fbbf24"/>
+    
+    <!-- Watermark Logo -->
+    <g transform="translate(300, 150)" text-anchor="middle">
+      <circle cx="0" cy="0" r="54" fill="rgba(255, 255, 255, 0.08)" stroke="#d97706" stroke-width="2"/>
+      <g transform="translate(-24, -24) scale(2)">
+        ${iconSvg}
+      </g>
+    </g>
+
+    <!-- Overlay Badge Wilayah -->
+    <rect x="30" y="30" width="200" height="30" rx="8" fill="rgba(10, 5, 7, 0.85)" stroke="#fbbf24" stroke-width="1"/>
+    <text x="42" y="50" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="bold" font-size="12" fill="#fbbf24">${wilayah}</text>
+
+    <!-- Footer Banner Teks -->
+    <rect x="0" y="270" width="600" height="90" fill="rgba(2, 6, 23, 0.85)"/>
+    <rect x="0" y="270" width="600" height="2" fill="#d97706"/>
+    <text x="30" y="305" font-family="'Playfair Display', Georgia, serif" font-weight="bold" font-size="18" fill="#ffffff">${cleanJudul}</text>
+    <text x="30" y="335" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="600" font-size="12" fill="#fde68a">WARTA NUSANTARA • HABONARON DO BONA</text>
+  </svg>`;
+
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+
+// FUNGSI RENDER BERITA CARDS
+function renderBeritaCards(kategori = "all") {
+  const container = document.getElementById("gridBeritaCards");
+  if (!container) return;
+
+  const filtered = kategori === "all" ?
+    DATA_BERITA_IKEIS :
+    DATA_BERITA_IKEIS.filter(b => b.kategori === kategori);
+
+  container.innerHTML = filtered.map(b => {
+    const thumbUrl = b.gambar || generateBeritaThumbnail(b.judul, b.wilayah, b.temaGambar);
+
+    return `
+      <div class="berita-card rounded-2xl overflow-hidden shadow-lg flex flex-col justify-between group">
+        <div>
+          <!-- Thumbnail Gambar -->
+          <div class="aspect-video w-full overflow-hidden relative">
+            <img src="${thumbUrl}" alt="${b.judul}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <div class="absolute top-3 left-3 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-amber-400 text-amber-300 font-bold text-[10px] uppercase tracking-wider">
+              ${b.wilayah}
+            </div>
+          </div>
+
+          <!-- Konten Card -->
+          <div class="p-5 sm:p-6 space-y-3">
+            <div class="flex items-center justify-between text-xs text-slate-400">
+              <span class="flex items-center gap-1.5 text-amber-300/90 font-medium">
+                <svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                ${b.tanggal}
+              </span>
+              <span class="text-[11px] text-slate-400 italic">${b.sumber}</span>
+            </div>
+
+            <h3 class="font-serif font-black text-lg text-white group-hover:text-amber-300 transition-colors leading-snug line-clamp-2">
+              ${b.judul}
+            </h3>
+
+            <p class="text-xs sm:text-sm text-slate-300 line-clamp-3 leading-relaxed">
+              ${b.ringkasan}
+            </p>
+          </div>
+        </div>
+
+        <!-- Tombol Aksi -->
+        <div class="p-5 sm:p-6 pt-0 border-t border-slate-800 flex items-center justify-between gap-3 mt-2">
+          <button onclick="openBeritaModal('${b.id}')" class="px-4 py-2 rounded-xl bg-red-900/80 hover:bg-red-800 text-amber-200 font-bold text-xs border border-red-700/60 shadow-sm transition flex items-center gap-1.5">
+            <span>Baca Selengkapnya</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+
+          <button onclick="shareBeritaViaWhatsApp('${b.id}')" class="p-2 rounded-xl bg-slate-800 hover:bg-emerald-700 text-slate-300 hover:text-white transition" title="Bagikan Berita ke WhatsApp">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.288.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.45 1.053 1.343 1.849.528.47 1.077.674 1.279.76.202.086.319.072.435-.058.116-.13.491-.57.622-.765.13-.195.26-.162.434-.097.174.065 1.102.52 1.29.614.188.094.313.141.359.22.046.079.046.455-.098.86z"/></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// FILTER BERITA TAB
+function filterBerita(kategori) {
+  document.querySelectorAll(".tab-berita-btn").forEach(btn => {
+    btn.classList.remove("active", "bg-red-800", "text-white");
+    btn.classList.add("bg-slate-900/80", "text-slate-300");
+  });
+
+  const activeBtn = document.getElementById(`tabBerita-${kategori}`);
+  if (activeBtn) {
+    activeBtn.classList.add("active", "bg-red-800", "text-white");
+    activeBtn.classList.remove("bg-slate-900/80", "text-slate-300");
+  }
+
+  renderBeritaCards(kategori);
+}
+
+// BUKA MODAL DETAIL BERITA
+function openBeritaModal(beritaId) {
+  const b = DATA_BERITA_IKEIS.find(item => item.id === beritaId);
+  if (!b) return;
+
+  const modal = document.getElementById("beritaDetailModal");
+  const content = document.getElementById("beritaModalContent");
+  if (!modal || !content) return;
+
+  const thumbUrl = b.gambar || generateBeritaThumbnail(b.judul, b.wilayah, b.temaGambar);
+
+  content.innerHTML = `
+    <div class="space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="px-3 py-1 rounded-full bg-red-950 border border-red-700 text-amber-300 text-xs font-bold uppercase tracking-wider">
+          ${b.wilayah}
+        </span>
+        <span class="text-xs text-slate-400">${b.waktuRilis}</span>
+      </div>
+
+      <h3 class="font-serif font-black text-xl sm:text-2xl text-white leading-tight">
+        ${b.judul}
+      </h3>
+
+      <div class="text-xs text-amber-300 flex items-center gap-2 pb-2 border-b border-slate-700">
+        <span>Sumber: <strong>${b.sumber}</strong></span>
+        <span>•</span>
+        <span>Rubrik Warta IKEIS se-Indonesia</span>
+      </div>
+
+      <div class="rounded-2xl overflow-hidden aspect-video w-full border border-slate-700 shadow-md">
+        <img src="${thumbUrl}" alt="${b.judul}" class="w-full h-full object-cover" />
+      </div>
+
+      <div class="text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line space-y-3 pt-2">
+        ${b.isiLengkap}
+      </div>
+
+      <div class="pt-4 border-t border-slate-700 flex flex-wrap items-center justify-between gap-3">
+        <div class="text-xs text-slate-400">
+          <em>Habonaron Do Bona • Ikatan Keluarga Islam Simalungun</em>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="shareBeritaViaWhatsApp('${b.id}')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.288.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.45 1.053 1.343 1.849.528.47 1.077.674 1.279.76.202.086.319.072.435-.058.116-.13.491-.57.622-.765.13-.195.26-.162.434-.097.174.065 1.102.52 1.29.614.188.094.313.141.359.22.046.079.046.455-.098.86z"/></svg>
+            <span>Share ke WA</span>
+          </button>
+          <button onclick="closeBeritaModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold">Tutup</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  modal.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
+
+// TUTUP MODAL DETAIL BERITA
+function closeBeritaModal() {
+  const modal = document.getElementById("beritaDetailModal");
+  if (modal) modal.classList.add("hidden");
+  document.body.style.overflow = "auto";
+}
+
+// BAGIKAN BERITA KE WHATSAPP
+function shareBeritaViaWhatsApp(beritaId) {
+  const b = DATA_BERITA_IKEIS.find(item => item.id === beritaId);
+  if (!b) return;
+
+  const currentUrl = window.location.href.split("#")[0] + "#berita-ikeis";
+  const text =
+`*WARTA BERITA IKEIS SE-INDONESIA*
+Wilayah: ${b.wilayah}
+Tanggal: ${b.tanggal}
+Sumber: ${b.sumber}
+
+*${b.judul}*
+
+${b.ringkasan}
+
+Baca ulasan lengkapnya di Portal Resmi IKEIS:
+${currentUrl}
+
+Habonaron Do Bona. Horas, Bujur!`;
+
+  const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+  window.open(waUrl, "_blank");
+}
+
+// HUBUNGI REDAKSI BERITA
+function hubungiRedaksiBerita() {
+  const text = `Assalamu'alaikum Pengurus/Redaksi IKEIS, kami ingin mengirimkan rilis warta kegiatan silaturahmi IKEIS dari daerah kami...`;
+  const waUrl = `https://api.whatsapp.com/send?phone=6281289112233&text=${encodeURIComponent(text)}`;
+  window.open(waUrl, "_blank");
+}
+
 
 

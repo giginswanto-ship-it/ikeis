@@ -133,6 +133,7 @@
             </div>
           </div>
 
+          <a href="#berita-ikeis" class="px-3 py-2 rounded-lg hover:text-red-800 hover:bg-red-50/70 transition">Berita IKEIS</a>
           <a href="#direktori" class="px-3 py-2 rounded-lg hover:text-red-800 hover:bg-red-50/70 transition">Direktori</a>
           
           <!-- Menu Dropdown: Portal Silaturahmi -->
@@ -225,6 +226,10 @@
           </a>
         </div>
 
+        <a href="#berita-ikeis" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-bold text-amber-950 bg-amber-50/80 hover:bg-amber-100 border border-amber-200/80 flex items-center gap-2">
+          <span>📰</span>
+          <span>Berita IKEIS se-Indonesia</span>
+        </a>
         <a href="#direktori" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-red-50 hover:text-red-800">Direktori Anggota Jabodetabek</a>
         <a href="#forum" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-bold text-red-900 bg-red-50/80">Portal Silaturahmi & Dinding Ukhuwah</a>
         <a href="#space-silaturahmi" onclick="toggleMobileMenu(); promptSelectMemberForSpace();" class="block px-3 py-2 rounded-lg text-sm font-bold text-amber-900 bg-amber-100/70 border border-amber-200">📸 Space Silaturahmi Warga (Foto & Status)</a>
@@ -696,6 +701,81 @@
 
     </div>
   </section>
+
+  <!-- =====================================================================
+       BAGIAN: BERITA IKEIS (KABAR & DINAMIKA IKEIS SE-INDONESIA)
+       ===================================================================== -->
+  <section id="berita-ikeis" class="py-16 lg:py-24 bg-gradient-to-b from-[#0f172a] via-[#1a050c] to-[#0a0507] text-white border-t-2 border-red-900/40 relative overflow-hidden scroll-mt-20">
+    <!-- Gorga & Light effects -->
+    <div class="absolute inset-0 bg-simalungun-pattern opacity-10 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Section Header -->
+      <div class="max-w-3xl mx-auto text-center space-y-3 mb-10">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-950/80 border border-red-700/80 text-amber-300 text-xs font-bold uppercase tracking-wider shadow">
+          <span>📰</span> Warta & Kabar Nusantara
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-white font-serif tracking-tight">
+          Berita IKEIS se-Indonesia
+        </h2>
+        <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+          Kumpulan berita aktual, kegiatan silaturahmi, audiensi kepengurusan, dan peristiwa penting Ikatan Keluarga Islam Simalungun di berbagai penjuru nusantara dalam 6 bulan terakhir.
+        </p>
+
+        <!-- Filter Tab Wilayah Berita -->
+        <div class="flex flex-wrap items-center justify-center gap-2 pt-3">
+          <button onclick="filterBerita('all')" id="tabBerita-all" class="tab-berita-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-red-800 text-white shadow-md border border-red-600/50 transition">
+            Semua Wilayah
+          </button>
+          <button onclick="filterBerita('sumut')" id="tabBerita-sumut" class="tab-berita-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-900/80 text-slate-300 hover:bg-red-950 hover:text-amber-300 border border-slate-700 transition">
+            Sumatera Utara
+          </button>
+          <button onclick="filterBerita('jakarta')" id="tabBerita-jakarta" class="tab-berita-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-900/80 text-slate-300 hover:bg-red-950 hover:text-amber-300 border border-slate-700 transition">
+            DKI Jakarta & Perantauan
+          </button>
+          <button onclick="filterBerita('riau')" id="tabBerita-riau" class="tab-berita-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-900/80 text-slate-300 hover:bg-red-950 hover:text-amber-300 border border-slate-700 transition">
+            Riau & Wilayah Lain
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid Kartu Berita -->
+      <div id="gridBeritaCards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <!-- Rendered dynamically via JavaScript renderBeritaCards() -->
+      </div>
+
+      <!-- Banner Footer Berita: Ajakan Kontribusi Warta -->
+      <div class="p-6 rounded-2xl bg-gradient-to-r from-red-950/80 via-black to-slate-950 border border-amber-400/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-xl bg-red-900 text-amber-300 flex items-center justify-center font-bold text-xl shrink-0 border border-amber-400/40 shadow">
+            ✍️
+          </div>
+          <div>
+            <h4 class="font-bold text-sm sm:text-base text-amber-300 font-serif">Punya Warta Kegiatan IKEIS di Daerah Anda?</h4>
+            <p class="text-xs text-slate-300">Kirimkan rilis berita, dokumentasi foto pengajian, atau kegiatan sosial cabang IKEIS Anda untuk kami tayangkan.</p>
+          </div>
+        </div>
+        <button onclick="hubungiRedaksiBerita()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-xs shadow-md transition flex items-center gap-2 shrink-0">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.288.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.45 1.053 1.343 1.849.528.47 1.077.674 1.279.76.202.086.319.072.435-.058.116-.13.491-.57.622-.765.13-.195.26-.162.434-.097.174.065 1.102.52 1.29.614.188.094.313.141.359.22.046.079.046.455-.098.86z"/></svg>
+          <span>Kirim Rilis Berita</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Modal Baca Berita Lengkap -->
+  <div id="beritaDetailModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-[#111827] text-white border-2 border-red-900/60 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative my-8">
+      <button onclick="closeBeritaModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-sm font-bold transition">
+        ✕
+      </button>
+      <div id="beritaModalContent">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
 
   <!-- =====================================================================
        BAGIAN 3: PENDAFTARAN ANGGOTA BARU (E-REGISTRASI IKEIS - PUTIH & MERAH)
