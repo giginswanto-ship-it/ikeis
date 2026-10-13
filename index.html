@@ -107,6 +107,32 @@
         <nav class="hidden md:flex items-center gap-1 lg:gap-2 text-sm font-semibold text-slate-700">
           <a href="#beranda" class="px-3 py-2 rounded-lg hover:text-red-800 hover:bg-red-50/70 transition">Beranda</a>
           <a href="#demografi" class="px-3 py-2 rounded-lg hover:text-red-800 hover:bg-red-50/70 transition">Demografi</a>
+
+          <!-- Menu Dropdown: Susunan Pengurus -->
+          <div class="relative group">
+            <button class="px-3 py-2 rounded-lg text-slate-700 hover:text-red-800 hover:bg-red-50/70 transition flex items-center gap-1.5 font-semibold">
+              <span>Susunan Pengurus</span>
+              <svg class="w-3.5 h-3.5 text-slate-500 group-hover:text-red-700 group-hover:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <!-- Dropdown Sub Menu -->
+            <div class="absolute left-0 mt-1 w-64 bg-white rounded-2xl shadow-xl border border-red-900/20 py-2 hidden group-hover:block transition z-50">
+              <a href="#susunan-pengurus" class="flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 text-slate-800 hover:text-red-900 transition">
+                <span class="w-8 h-8 rounded-lg bg-red-100 text-red-800 flex items-center justify-center text-sm font-bold shrink-0">👥</span>
+                <div>
+                  <div class="font-bold text-xs">Susunan Pengurus</div>
+                  <div class="text-[10px] text-slate-500">Struktur BPH & Dewan Pembina (Foto)</div>
+                </div>
+              </a>
+              <a href="#pengumuman-pengurus" class="flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 text-slate-800 hover:text-red-900 transition border-t border-slate-100">
+                <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-900 flex items-center justify-center text-sm font-bold shrink-0">📢</span>
+                <div>
+                  <div class="font-bold text-xs">Pengumuman Pengurus</div>
+                  <div class="text-[10px] text-slate-500">SK, Maklumat, & Warta Resmi</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
           <a href="#direktori" class="px-3 py-2 rounded-lg hover:text-red-800 hover:bg-red-50/70 transition">Direktori</a>
           
           <!-- Menu Dropdown: Portal Silaturahmi -->
@@ -182,6 +208,23 @@
       <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 py-3 space-y-1">
         <a href="#beranda" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-red-50 hover:text-red-800">Beranda</a>
         <a href="#demografi" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-red-50 hover:text-red-800">Catatan Demografi Resmi</a>
+        
+        <!-- Sub Menu Group Mobile: Susunan Pengurus -->
+        <div class="border border-red-200/80 rounded-xl p-2.5 bg-gradient-to-r from-red-50/70 via-white to-amber-50/40 my-1 space-y-1">
+          <div class="px-2 py-0.5 text-[11px] font-bold text-red-950 uppercase tracking-wider flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-red-700"></span>
+            <span>Menu Kepengurusan</span>
+          </div>
+          <a href="#susunan-pengurus" onclick="toggleMobileMenu()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-red-100/70">
+            <span class="w-6 h-6 rounded bg-red-100 text-red-800 flex items-center justify-center text-xs">👥</span>
+            <span>Susunan Pengurus (beserta foto)</span>
+          </a>
+          <a href="#pengumuman-pengurus" onclick="toggleMobileMenu()" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-bold text-slate-800 hover:bg-red-100/70">
+            <span class="w-6 h-6 rounded bg-amber-100 text-amber-900 flex items-center justify-center text-xs">📢</span>
+            <span>Pengumuman Pengurus</span>
+          </a>
+        </div>
+
         <a href="#direktori" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-red-50 hover:text-red-800">Direktori Anggota Jabodetabek</a>
         <a href="#forum" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-sm font-bold text-red-900 bg-red-50/80">Portal Silaturahmi & Dinding Ukhuwah</a>
         <a href="#space-silaturahmi" onclick="toggleMobileMenu(); promptSelectMemberForSpace();" class="block px-3 py-2 rounded-lg text-sm font-bold text-amber-900 bg-amber-100/70 border border-amber-200">📸 Space Silaturahmi Warga (Foto & Status)</a>
@@ -576,6 +619,81 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       BAGIAN: SUSUNAN PENGURUS & PENGUMUMAN PENGURUS (BESERTA FOTO)
+       ===================================================================== -->
+  <section id="susunan-pengurus" class="py-16 lg:py-24 bg-white border-t-2 border-red-900/20 scroll-mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header: Susunan Pengurus -->
+      <div class="max-w-3xl mx-auto text-center space-y-3 mb-10">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-50 border border-red-200 text-red-900 text-xs font-bold uppercase tracking-wider">
+          <span>👥</span> Struktur Organisasi Masa Bakti 2024–2029
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-slate-900 font-serif">
+          Susunan Pengurus IKEIS DKI Jakarta
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+          Struktur kepengurusan resmi Ikatan Keluarga Islam Simalungun Wilayah DKI Jakarta. Mengemban amanah ukhuwah berlandaskan falsafah luhur <em>Habonaron Do Bona</em>, menjunjung kejujuran, kegotongroyongan, dan kemaslahatan warga di perantauan.
+        </p>
+
+        <!-- Filter Tab Kategori Pengurus -->
+        <div class="flex flex-wrap items-center justify-center gap-2 pt-3">
+          <button onclick="filterPengurus('all')" id="tabPengurus-all" class="tab-pengurus-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-red-900 text-white shadow-md transition">
+            Semua Pengurus
+          </button>
+          <button onclick="filterPengurus('bph')" id="tabPengurus-bph" class="tab-pengurus-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-red-50 hover:text-red-900 transition">
+            Badan Pengurus Harian (BPH)
+          </button>
+          <button onclick="filterPengurus('penasehat')" id="tabPengurus-penasehat" class="tab-pengurus-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-red-50 hover:text-red-900 transition">
+            Dewan Pembina & Penasehat
+          </button>
+          <button onclick="filterPengurus('bidang')" id="tabPengurus-bidang" class="tab-pengurus-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-red-50 hover:text-red-900 transition">
+            Ketua Bidang
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid Susunan Pengurus (Beserta Foto Proporsional 3:4) -->
+      <div id="gridPengurusCards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
+        <!-- Rendered dynamically via JavaScript renderPengurusCards() -->
+      </div>
+
+      <!-- ===================================================================
+           SUB-MENU 2: PENGUMUMAN PENGURUS
+           =================================================================== -->
+      <div id="pengumuman-pengurus" class="scroll-mt-24 pt-12 border-t-2 border-red-100">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-300 text-amber-900 text-xs font-bold uppercase tracking-wider mb-2">
+              <span>📢</span> Warta & Maklumat Resmi
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black text-slate-900 font-serif">
+              Pengumuman Pengurus
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1 max-w-xl">
+              Publikasi Surat Keputusan (SK) resmi, maklumat silaturahmi, instruksi pendataan, dan himbauan pengurus IKEIS DKI Jakarta.
+            </p>
+          </div>
+
+          <!-- Filter Kategori Pengumuman -->
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <button onclick="filterPengumuman('all')" id="tabAnnounce-all" class="tab-announce-btn active px-3.5 py-1.5 rounded-lg text-xs font-bold bg-red-900 text-white shadow-sm transition">Semua Warta</button>
+            <button onclick="filterPengumuman('sk')" id="tabAnnounce-sk" class="tab-announce-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-red-50 hover:text-red-900 transition">SK Resmi</button>
+            <button onclick="filterPengumuman('maklumat')" id="tabAnnounce-maklumat" class="tab-announce-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-red-50 hover:text-red-900 transition">Maklumat</button>
+            <button onclick="filterPengumuman('himbauan')" id="tabAnnounce-himbauan" class="tab-announce-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-red-50 hover:text-red-900 transition">Himbauan</button>
+          </div>
+        </div>
+
+        <!-- Grid Pengumuman Cards -->
+        <div id="gridPengumumanCards" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Rendered dynamically via JavaScript renderPengumumanCards() -->
+        </div>
+      </div>
+
     </div>
   </section>
 

@@ -675,6 +675,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderAgendaCards();
   renderBaitulMalInfo();
   renderKorwilCards();
+  renderPengurusCards();
+  renderPengumumanCards();
   initRegistrationForm();
   updateLiveStatsHeader();
   populateAdminDropdowns();
@@ -2886,4 +2888,465 @@ Horas, Bujur!`;
   const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
   window.open(waUrl, "_blank");
 }
+
+// =====================================================================
+// DATA MASTER & LOGIKA SUSUNAN PENGURUS & PENGUMUMAN PENGURUS
+// =====================================================================
+
+const DATA_PENGURUS = [
+  // --- DEWAN PEMBINA & PENASEHAT ---
+  {
+    id: "pengurus-1",
+    nama: "Mayjen TNI (Purn.) H. Asril Damanik, S.IP.",
+    kategori: "penasehat",
+    kategoriLabel: "Dewan Pembina",
+    badgeColor: "bg-amber-100 text-amber-900 border-amber-300",
+    jabatan: "Ketua Dewan Pembina",
+    marga: "Damanik",
+    asal: "Siantar / Silimakuta",
+    domisili: "Jakarta Timur",
+    gender: "Laki-laki",
+    foto: null,
+    pesan: "Menjaga martabat Habonaron Do Bona dan merajut solidaritas sesama perantau Muslim Simalungun."
+  },
+  {
+    id: "pengurus-2",
+    nama: "Prof. Dr. H. Faisal Saragih, M.A.",
+    kategori: "penasehat",
+    kategoriLabel: "Dewan Penasehat",
+    badgeColor: "bg-red-100 text-red-900 border-red-200",
+    jabatan: "Ketua Dewan Penasehat & Ulama",
+    marga: "Saragih Garingging",
+    asal: "Kec. Raya",
+    domisili: "Jakarta Selatan",
+    gender: "Laki-laki",
+    foto: null,
+    pesan: "Ukhuwah Islamiyah adalah fondasi kerukunan, tradisi luhur adalah jati diri bermasyarakat."
+  },
+  {
+    id: "pengurus-3",
+    nama: "Drs. H. Bachtiar Purba, M.M.",
+    kategori: "penasehat",
+    kategoriLabel: "Dewan Penasehat",
+    badgeColor: "bg-red-100 text-red-900 border-red-200",
+    jabatan: "Dewan Penasehat Adat & Budaya",
+    marga: "Purba Dasuha",
+    asal: "Purba Saribu",
+    domisili: "Jakarta Pusat",
+    gender: "Laki-laki",
+    foto: null,
+    pesan: "Falsafah Tolu Sahundulan menjadi pedoman musyawarah dan adab santun di rantau."
+  },
+
+  // --- BADAN PENGURUS HARIAN (BPH) ---
+  {
+    id: "pengurus-4",
+    nama: "H. Zulkifli Damanik, S.E., M.M.",
+    kategori: "bph",
+    kategoriLabel: "Pimpinan BPH",
+    badgeColor: "bg-red-900 text-amber-300 border-red-700",
+    jabatan: "Ketua Umum",
+    marga: "Damanik",
+    asal: "Kec. Tapian Dolok",
+    domisili: "Jakarta Selatan",
+    gender: "Laki-laki",
+    foto: null,
+    telepon: "081289112233",
+    pesan: "Membangun Ukhuwah, Melestarikan Budaya, dan Berkhidmat untuk Kemaslahatan Umat."
+  },
+  {
+    id: "pengurus-5",
+    nama: "Ir. Hendra Saragih, M.T.",
+    kategori: "bph",
+    kategoriLabel: "Pimpinan BPH",
+    badgeColor: "bg-red-100 text-red-900 border-red-200",
+    jabatan: "Wakil Ketua Umum I (Organisasi & Wilayah)",
+    marga: "Saragih Garingging",
+    asal: "Kec. Raya",
+    domisili: "Jakarta Timur",
+    gender: "Laki-laki",
+    foto: null,
+    telepon: "081377889900",
+    pesan: "Konsolidasi aktif menjangkau seluruh warga Muslim Simalungun di 5 wilayah kota DKI Jakarta."
+  },
+  {
+    id: "pengurus-6",
+    nama: "Drs. H. Ahmad Fauzi Sinaga, M.Si.",
+    kategori: "bph",
+    kategoriLabel: "Pimpinan BPH",
+    badgeColor: "bg-red-100 text-red-900 border-red-200",
+    jabatan: "Wakil Ketua Umum II (Sosial & Keagamaan)",
+    marga: "Sinaga Dadihurung",
+    asal: "Kec. Tanah Jawa",
+    domisili: "Jakarta Barat",
+    gender: "Laki-laki",
+    foto: null,
+    telepon: "081122334455",
+    pesan: "Memperkuat fungsi Baitul Mal sebagai pelindung sosial kemalangan dan duka cita sesama warga."
+  },
+  {
+    id: "pengurus-7",
+    nama: "Mhd. Rizky Damanik, S.Kom., M.T.",
+    kategori: "bph",
+    kategoriLabel: "Pimpinan BPH",
+    badgeColor: "bg-slate-900 text-amber-300 border-slate-700",
+    jabatan: "Sekretaris Umum",
+    marga: "Damanik",
+    asal: "Kec. Siantar",
+    domisili: "Jakarta Pusat",
+    gender: "Laki-laki",
+    foto: null,
+    telepon: "081566778899",
+    pesan: "Tata kelola administrasi modern berbasis digitalisasi portal KTA dan transparansi informasi."
+  },
+  {
+    id: "pengurus-8",
+    nama: "Siti Aminah Purba, S.Pd.",
+    kategori: "bph",
+    kategoriLabel: "Pimpinan BPH",
+    badgeColor: "bg-amber-100 text-amber-900 border-amber-300",
+    jabatan: "Wakil Sekretaris",
+    marga: "Purba Tambak",
+    asal: "Kec. Haranggaol Horison",
+    domisili: "Jakarta Utara",
+    gender: "Perempuan",
+    foto: null,
+    telepon: "081833445566",
+    pesan: "Pencatatan data keluarga, dokumentasi warta, dan komunikasi aktif lintas generasi muda."
+  },
+  {
+    id: "pengurus-9",
+    nama: "Hj. Mardiah Saragih, S.E., Ak., CA.",
+    kategori: "bph",
+    kategoriLabel: "Pimpinan BPH",
+    badgeColor: "bg-emerald-100 text-emerald-900 border-emerald-300",
+    jabatan: "Bendahara Umum",
+    marga: "Saragih Simarmata",
+    asal: "Kec. Silou Kahean",
+    domisili: "Jakarta Selatan",
+    gender: "Perempuan",
+    foto: null,
+    telepon: "081799887766",
+    pesan: "Amanah dan akuntabel dalam pelaporan kas solidaritas, infaq silaturahmi, dan dana ta'awun."
+  },
+  {
+    id: "pengurus-10",
+    nama: "H. Syahrial Sinaga, B.B.A.",
+    kategori: "bph",
+    kategoriLabel: "Pimpinan BPH",
+    badgeColor: "bg-emerald-100 text-emerald-900 border-emerald-300",
+    jabatan: "Wakil Bendahara",
+    marga: "Sinaga Porti",
+    asal: "Kec. Bosar Maligas",
+    domisili: "Jakarta Timur",
+    gender: "Laki-laki",
+    foto: null,
+    telepon: "081234567811",
+    pesan: "Penyaluran cepat tanggap dana duka cita dan ambulans ukhuwah bagi warga yang berduka."
+  },
+
+  // --- KETUA BIDANG ---
+  {
+    id: "pengurus-11",
+    nama: "Ust. Dr. H. Imran Purba, Lc., M.A.",
+    kategori: "bidang",
+    kategoriLabel: "Ketua Bidang",
+    badgeColor: "bg-blue-100 text-blue-900 border-blue-200",
+    jabatan: "Ketua Bidang Dakwah & Ukhuwah Islamiyah",
+    marga: "Purba Siboro",
+    asal: "Kec. Dolok Batu Nanggar",
+    domisili: "Jakarta Pusat",
+    gender: "Laki-laki",
+    foto: null,
+    telepon: "081211223344",
+    pesan: "Menyelenggarakan kajian berkala, bimbingan fardhu kifayah, dan pengajian keluarga."
+  },
+  {
+    id: "pengurus-12",
+    nama: "H. Rustam Damanik, S.Sn.",
+    kategori: "bidang",
+    kategoriLabel: "Ketua Bidang",
+    badgeColor: "bg-amber-100 text-amber-900 border-amber-300",
+    jabatan: "Ketua Bidang Adat, Seni & Falsafah Budaya",
+    marga: "Damanik",
+    asal: "Kec. Panei",
+    domisili: "Jakarta Selatan",
+    gender: "Laki-laki",
+    foto: null,
+    telepon: "081399881122",
+    pesan: "Merawat tutur adat, tradisi kuliner Dayok Binatur halal, dan filosofi Habonaron Do Bona."
+  },
+  {
+    id: "pengurus-13",
+    nama: "Ir. Muhammad Ilham Saragih",
+    kategori: "bidang",
+    kategoriLabel: "Ketua Bidang",
+    badgeColor: "bg-rose-100 text-rose-900 border-rose-200",
+    jabatan: "Ketua Bidang Sosial Kemalangan & Baitul Mal",
+    marga: "Saragih Sumbayak",
+    asal: "Kec. Gunung Malela",
+    domisili: "Jakarta Barat",
+    gender: "Laki-laki",
+    foto: null,
+    telepon: "081744556677",
+    pesan: "Siaga pendampingan rumah duka, santunan kemalangan, dan layanan mobil ambulans gratis."
+  },
+  {
+    id: "pengurus-14",
+    nama: "Hj. Roslina Sinaga, S.E.",
+    kategori: "bidang",
+    kategoriLabel: "Ketua Bidang",
+    badgeColor: "bg-purple-100 text-purple-900 border-purple-200",
+    jabatan: "Ketua Bidang Pemberdayaan Usaha & UMKM",
+    marga: "Sinaga",
+    asal: "Kec. Bandar (Perdagangan)",
+    domisili: "Jakarta Timur",
+    gender: "Perempuan",
+    foto: null,
+    telepon: "081577889911",
+    pesan: "Pemberdayaan jejaring wirausaha, lapak usaha warga, dan kemitraan ekonomi sesama dongan tubu."
+  },
+  {
+    id: "pengurus-15",
+    nama: "Fajar Damanik, S.I.Kom.",
+    kategori: "bidang",
+    kategoriLabel: "Ketua Bidang",
+    badgeColor: "bg-cyan-100 text-cyan-900 border-cyan-200",
+    jabatan: "Ketua Bidang Kepemudaan, Humas & Media",
+    marga: "Damanik",
+    asal: "Kec. Ujung Padang",
+    domisili: "Jakarta Utara",
+    gender: "Laki-laki",
+    foto: null,
+    telepon: "081922334455",
+    pesan: "Merangkul generasi muda diaspora Simalungun melalui kreativitas digital, olahraga, dan sosial."
+  }
+];
+
+const DATA_PENGUMUMAN_PENGURUS = [
+  {
+    id: "ann-1",
+    nomor: "SK-01/DPP-IKEIS/DKI/X/2024",
+    kategori: "sk",
+    badgeLabel: "SK Resmi Pengurus",
+    badgeClass: "bg-red-100 text-red-900 border-red-300",
+    tanggal: "15 Oktober 2024 (Masa Khidmat 2024–2029)",
+    judul: "Surat Keputusan Pengesahan & Pengukuhan Susunan Badan Pengurus IKEIS DKI Jakarta",
+    ringkasan: "Memutuskan dan mengesahkan secara sah susunan Dewan Pembina, Dewan Penasehat, Badan Pengurus Harian (BPH), serta Koordinator Bidang Ikatan Keluarga Islam Simalungun Wilayah DKI Jakarta sebagai perpanjangan amanah ukhuwah dan pengayom perantau.",
+    penandatangan: "Dewan Pembina & Ketua Umum IKEIS DKI Jakarta"
+  },
+  {
+    id: "ann-2",
+    nomor: "MKL-08/BPH-IKEIS/DKI/2026",
+    kategori: "maklumat",
+    badgeLabel: "Maklumat Silaturahmi",
+    badgeClass: "bg-amber-100 text-amber-900 border-amber-300",
+    tanggal: "12 Oktober 2026",
+    judul: "Maklumat Silaturahmi Akbar Warga Muslim Simalungun se-DKI Jakarta di TMII",
+    ringkasan: "Mengundang seluruh dongan sabutuha, boru, panogolan keluarga besar Muslim Simalungun dalam pertemuan akbar tahunan. Agenda meliputi silaturahmi perantau, tausiyah keagamaan, jamuan khas Dayok Binatur halal, dan santunan anak yatim.",
+    penandatangan: "H. Zulkifli Damanik, S.E. (Ketum) & Mhd. Rizky Damanik, S.Kom. (Sekum)"
+  },
+  {
+    id: "ann-3",
+    nomor: "HMB-03/SOSIAL-IKEIS/2026",
+    kategori: "himbauan",
+    badgeLabel: "Himbauan Sosial",
+    badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-300",
+    tanggal: "05 Oktober 2026",
+    judul: "Himbauan Penguatan Kas Solidaritas Kemalangan & Siaga Ambulans Ukhuwah",
+    ringkasan: "Laporan keterbukaan pengelolaan dana duka cita dan himbauan infaq/ta'awun sukarela Baitul Mal sebesar Rp 25.000/bulan per KK. Dana ini digunakan langsung untuk menjamin fardhu kifayah, santunan lelayu, dan pengantaran jenazah sesama warga.",
+    penandatangan: "Bidang Sosial & Bendahara Umum IKEIS DKI Jakarta"
+  },
+  {
+    id: "ann-4",
+    nomor: "INS-02/ORG-IKEIS/DKI/2026",
+    kategori: "maklumat",
+    badgeLabel: "Instruksi Organisasi",
+    badgeClass: "bg-blue-100 text-blue-900 border-blue-300",
+    tanggal: "01 Oktober 2026",
+    judul: "Instruksi Pemutakhiran Database Warga & Penerbitan KTA Digital Resmi",
+    ringkasan: "Dihimbau kepada seluruh korwil dan koordinator keluarga di DKI Jakarta untuk mendaftarkan sanak saudara pada portal resmi. KTA Digital resmi dilengkapi nomor registrasi unik untuk mempermudah koordinasi sosial dan bantuan kemalangan.",
+    penandatangan: "Sekretariat Pengurus IKEIS DKI Jakarta"
+  }
+];
+
+// FUNGSI RENDER SUSUNAN PENGURUS
+function renderPengurusCards(kategori = "all") {
+  const container = document.getElementById("gridPengurusCards");
+  if (!container) return;
+
+  const filtered = kategori === "all" ? 
+    DATA_PENGURUS : 
+    DATA_PENGURUS.filter(p => p.kategori === kategori);
+
+  container.innerHTML = filtered.map(p => {
+    const fotoSrc = p.foto || generateSamplePasfoto(p.nama, p.gender);
+    const waUrl = p.telepon ? `https://api.whatsapp.com/send?phone=62${p.telepon.replace(/^0/, '')}&text=${encodeURIComponent(`Assalamu'alaikum Bapa/Uda/Inang ${p.nama}, salam silaturahmi dari warga IKEIS DKI Jakarta...`)}` : null;
+
+    return `
+      <div class="pengurus-card rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+        <div>
+          <!-- Pasfoto Resmi 3:4 Proporsional -->
+          <div class="pengurus-photo-box mb-4">
+            <img src="${fotoSrc}" alt="Pasfoto ${p.nama}" />
+          </div>
+
+          <!-- Kategori & Jabatan -->
+          <div class="text-center mb-3">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider ${p.badgeColor} mb-1.5">
+              ${p.kategoriLabel}
+            </span>
+            <h4 class="font-bold text-sm sm:text-base text-red-950 font-serif leading-snug">
+              ${p.jabatan}
+            </h4>
+            <h5 class="text-sm font-black text-slate-800 mt-1">
+              ${p.nama}
+            </h5>
+          </div>
+
+          <!-- Metadata Silsilah & Domisili -->
+          <div class="bg-slate-50 rounded-xl p-3 text-xs space-y-1.5 border border-slate-200/80 mb-3 text-slate-600">
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400">Marga:</span>
+              <span class="font-bold text-slate-800">${p.marga}</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400">Tanoh Asal:</span>
+              <span class="font-semibold text-slate-700">${p.asal}</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-slate-400">Domisili:</span>
+              <span class="font-semibold text-slate-700">${p.domisili}</span>
+            </div>
+          </div>
+
+          <!-- Kutipan Amanah / Motto -->
+          <p class="text-xs text-slate-500 italic text-center px-1 mb-4">
+            "${p.pesan}"
+          </p>
+        </div>
+
+        <!-- Tombol Aksi Silaturahmi WhatsApp -->
+        <div>
+          ${waUrl ? `
+            <a href="${waUrl}" target="_blank" class="w-full py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition">
+              <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.288.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.45 1.053 1.343 1.849.528.47 1.077.674 1.279.76.202.086.319.072.435-.058.116-.13.491-.57.622-.765.13-.195.26-.162.434-.097.174.065 1.102.52 1.29.614.188.094.313.141.359.22.046.079.046.455-.098.86z"/></svg>
+              <span>Hubungi Pengurus</span>
+            </a>
+          ` : `
+            <div class="w-full py-2 px-3 rounded-xl bg-slate-100 text-slate-500 font-medium text-xs text-center border border-slate-200">
+              Sekretariat IKEIS DKI Jakarta
+            </div>
+          `}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// FILTER PENGURUS TAB
+function filterPengurus(kategori) {
+  document.querySelectorAll(".tab-pengurus-btn").forEach(btn => {
+    btn.classList.remove("active", "bg-red-900", "text-white", "shadow-md");
+    btn.classList.add("bg-slate-100", "text-slate-700");
+  });
+
+  const activeBtn = document.getElementById(`tabPengurus-${kategori}`);
+  if (activeBtn) {
+    activeBtn.classList.add("active", "bg-red-900", "text-white", "shadow-md");
+    activeBtn.classList.remove("bg-slate-100", "text-slate-700");
+  }
+
+  renderPengurusCards(kategori);
+}
+
+// FUNGSI RENDER PENGUMUMAN PENGURUS
+function renderPengumumanCards(kategori = "all") {
+  const container = document.getElementById("gridPengumumanCards");
+  if (!container) return;
+
+  const filtered = kategori === "all" ?
+    DATA_PENGUMUMAN_PENGURUS :
+    DATA_PENGUMUMAN_PENGURUS.filter(a => a.kategori === kategori);
+
+  container.innerHTML = filtered.map(a => {
+    return `
+      <div class="announce-card bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between relative overflow-hidden">
+        <div class="simalungun-border-stripe absolute top-0 left-0 right-0 h-1"></div>
+        <div>
+          <!-- Header Card Pengumuman -->
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3 pt-1">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] font-bold border uppercase tracking-wider ${a.badgeClass}">
+              ${a.badgeLabel}
+            </span>
+            <span class="text-xs text-slate-400 font-medium">${a.tanggal}</span>
+          </div>
+
+          <div class="text-[11px] font-mono text-red-800 font-bold mb-1.5">${a.nomor}</div>
+          <h4 class="font-serif font-black text-lg text-slate-900 mb-2 leading-snug">
+            ${a.judul}
+          </h4>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+            ${a.ringkasan}
+          </p>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+          <div class="text-slate-500">
+            <span class="block text-[10px] uppercase font-bold text-slate-400">Dikeluarkan oleh:</span>
+            <span class="font-bold text-slate-800">${a.penandatangan}</span>
+          </div>
+
+          <button onclick="sharePengumumanViaWhatsApp('${a.id}')" class="px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs border border-emerald-300 flex items-center gap-1.5 transition">
+            <svg class="w-3.5 h-3.5 fill-current text-emerald-700" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.288.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.45 1.053 1.343 1.849.528.47 1.077.674 1.279.76.202.086.319.072.435-.058.116-.13.491-.57.622-.765.13-.195.26-.162.434-.097.174.065 1.102.52 1.29.614.188.094.313.141.359.22.046.079.046.455-.098.86z"/></svg>
+            <span>Share ke WA</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// FILTER PENGUMUMAN TAB
+function filterPengumuman(kategori) {
+  document.querySelectorAll(".tab-announce-btn").forEach(btn => {
+    btn.classList.remove("active", "bg-red-900", "text-white", "shadow-sm");
+    btn.classList.add("bg-slate-100", "text-slate-700");
+  });
+
+  const activeBtn = document.getElementById(`tabAnnounce-${kategori}`);
+  if (activeBtn) {
+    activeBtn.classList.add("active", "bg-red-900", "text-white", "shadow-sm");
+    activeBtn.classList.remove("bg-slate-100", "text-slate-700");
+  }
+
+  renderPengumumanCards(kategori);
+}
+
+// BAGIKAN PENGUMUMAN VIA WHATSAPP
+function sharePengumumanViaWhatsApp(annId) {
+  const ann = DATA_PENGUMUMAN_PENGURUS.find(a => a.id === annId);
+  if (!ann) return;
+
+  const currentUrl = window.location.href.split("#")[0] + "#pengumuman-pengurus";
+  const text = 
+`*PENGUMUMAN RESMI PENGURUS IKEIS DKI JAKARTA*
+Nomor: ${ann.nomor}
+Tanggal: ${ann.tanggal}
+
+*${ann.judul}*
+
+${ann.ringkasan}
+
+_Dikeluarkan oleh: ${ann.penandatangan}_
+
+Baca selengkapnya di portal resmi IKEIS DKI Jakarta:
+${currentUrl}
+
+Habonaron Do Bona. Horas, Bujur!`;
+
+  const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+  window.open(waUrl, "_blank");
+}
+
 
