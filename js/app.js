@@ -571,7 +571,7 @@ const SEED_CONFIG = {
   kas: {
     namaBank: "Bank Syariah Indonesia (BSI)",
     noRekening: "719 8820 192",
-    atasNama: "IKEIS Jabodetabek Peduli",
+    atasNama: "IKEIS DKI Jakarta Peduli",
     kontakKonfirmasi: "0812-8911-2233 (H. Zulkifli Damanik)"
   },
   korwil: [
@@ -968,7 +968,7 @@ function showKtaModal(member, isNew = false) {
       titleNotice.innerHTML = `
         <div class="p-3 bg-red-50 border border-red-200 text-red-900 rounded-lg text-sm mb-3">
           <span class="font-bold">Alhamdulillah! Pendaftaran Berhasil.</span><br/>
-          Selamat bergabung dengan Ikatan Keluarga Islam Simalungun Jabodetabek. Berikut Kartu Tanda Anggota (KTA) Digital Anda.
+          Selamat bergabung dengan Ikatan Keluarga Islam Simalungun DKI Jakarta. Berikut Kartu Tanda Anggota (KTA) Digital Anda.
         </div>
       `;
     } else {
@@ -981,7 +981,7 @@ function showKtaModal(member, isNew = false) {
   const btnWaShare = document.getElementById("btnShareKtaWa");
   if (btnWaShare) {
     const waText = encodeURIComponent(
-      `Horas! Saya telah resmi terdaftar sebagai anggota Ikatan Keluarga Islam Simalungun (IKEIS) Jabodetabek dengan No KTA: ${member.id}.\nNama: ${member.nama}\nAsal Simalungun: Kec. ${member.kecamatanAsal}\nDomisili: ${member.domisili}\nHabonaron Do Bona!`
+      `Horas! Saya telah resmi terdaftar sebagai anggota Ikatan Keluarga Islam Simalungun (IKEIS) DKI Jakarta dengan No KTA: ${member.id}.\nNama: ${member.nama}\nAsal Simalungun: Kec. ${member.kecamatanAsal}\nDomisili: ${member.domisili}\nHabonaron Do Bona!`
     );
     btnWaShare.href = `https://api.whatsapp.com/send?text=${waText}`;
   }
@@ -1146,7 +1146,7 @@ function renderMembersDirectory() {
             <span>KTA</span>
           </button>
           
-          <a href="https://api.whatsapp.com/send?phone=${m.telepon ? m.telepon.replace(/^0/, '62') : ''}&text=${encodeURIComponent(`Assalamu'alaikum Uda/Inang/Bapa ${m.nama}, saya sesama anggota IKEIS Jabodetabek...`)}" target="_blank" title="Sapa melalui WhatsApp" class="py-1.5 px-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1 shadow-sm">
+          <a href="https://api.whatsapp.com/send?phone=${m.telepon ? m.telepon.replace(/^0/, '62') : ''}&text=${encodeURIComponent(`Assalamu'alaikum Uda/Inang/Bapa ${m.nama}, saya sesama anggota IKEIS DKI Jakarta...`)}" target="_blank" title="Sapa melalui WhatsApp" class="py-1.5 px-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition flex items-center justify-center gap-1 shadow-sm">
             <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.288.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.45 1.053 1.343 1.849.528.47 1.077.674 1.279.76.202.086.319.072.435-.058.116-.13.491-.57.622-.765.13-.195.26-.162.434-.097.174.065 1.102.52 1.29.614.188.094.313.141.359.22.046.079.046.455-.098.86z"/></svg>
             <span>WA</span>
           </a>
@@ -1219,7 +1219,7 @@ function openMemberSpace(memberId) {
   const shareBtn = document.getElementById("btnShareSpaceWa");
   if (shareBtn) {
     const waText = encodeURIComponent(
-      `Horas! Kunjungi Space Silaturahmi saya di Portal IKEIS Jabodetabek:\n` +
+      `Horas! Kunjungi Space Silaturahmi saya di Portal IKEIS DKI Jakarta:\n` +
       `Nama: ${member.nama} (${member.marga})\n` +
       `KTA ID: ${member.id}\n` +
       `Status: "${member.statusSilaturahmi || 'Silaturahmi mempererat ukhuwah dongan sabutuha'}"\n` +
@@ -1414,7 +1414,7 @@ function openPhotoLightbox(imgSrc, caption = "") {
 
   if (!modal || !imgEl) return;
   imgEl.src = imgSrc;
-  if (capEl) capEl.textContent = caption || "Dokumentasi Kegiatan Silaturahmi IKEIS Jabodetabek";
+  if (capEl) capEl.textContent = caption || "Dokumentasi Kegiatan Silaturahmi IKEIS DKI Jakarta";
   modal.classList.remove("hidden");
 }
 
@@ -1505,7 +1505,7 @@ function exportDirectoryToCSV() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `IKEIS_Direktori_Anggota_Jabodetabek_${new Date().toISOString().split("T")[0]}.csv`;
+  a.download = `IKEIS_Direktori_Anggota_DKI_Jakarta_${new Date().toISOString().split("T")[0]}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -2871,9 +2871,9 @@ function shareWebViaWhatsApp() {
   const message = 
 `assalamualaikum warahmatullahi wabarakatuh, 
 
-Mari bergabung dan jalin silaturahmi bersama keluarga besar Ikatan Keluarga Islam Simalungun (IKEIS) Wilayah Jabodetabek.
+Mari bergabung dan jalin silaturahmi bersama keluarga besar Ikatan Keluarga Islam Simalungun (IKEIS) Wilayah DKI Jakarta.
 
-Portal Resmi IKEIS Jabodetabek:
+Portal Resmi IKEIS DKI Jakarta:
 - Registrasi Anggota & KTA Digital
 - Direktori Warga Simalungun Perantauan
 - Dinding Ukhuwah & Kabar Silaturahmi
@@ -3684,6 +3684,70 @@ function hubungiRedaksiBerita() {
   const waUrl = `https://api.whatsapp.com/send?phone=6281289112233&text=${encodeURIComponent(text)}`;
   window.open(waUrl, "_blank");
 }
+
+// =====================================================================
+// MOBILE OFF-CANVAS DRAWER & NAVIGATION HELPERS (CRASH-PROOF)
+// =====================================================================
+function openMobileMenu() {
+  const drawer = document.getElementById("mobileDrawer");
+  const backdrop = document.getElementById("mobileDrawerBackdrop");
+  const btn = document.getElementById("hamburgerBtn");
+  if (drawer) {
+    drawer.classList.add("is-open");
+    drawer.setAttribute("aria-hidden", "false");
+  }
+  if (backdrop) backdrop.classList.add("is-open");
+  if (btn) {
+    btn.classList.add("is-active");
+    btn.setAttribute("aria-expanded", "true");
+  }
+  document.body.classList.add("drawer-open");
+}
+
+function closeMobileMenu() {
+  const drawer = document.getElementById("mobileDrawer");
+  const backdrop = document.getElementById("mobileDrawerBackdrop");
+  const btn = document.getElementById("hamburgerBtn");
+  if (drawer) {
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+  }
+  if (backdrop) backdrop.classList.remove("is-open");
+  if (btn) {
+    btn.classList.remove("is-active");
+    btn.setAttribute("aria-expanded", "false");
+  }
+  document.body.classList.remove("drawer-open");
+}
+
+function toggleMobileMenu() {
+  const drawer = document.getElementById("mobileDrawer");
+  if (drawer && drawer.classList.contains("is-open")) {
+    closeMobileMenu();
+  } else {
+    openMobileMenu();
+  }
+}
+
+function toggleMobileAccordion(id) {
+  const content = document.getElementById(id + "Content");
+  const icon = document.getElementById(id + "Icon");
+  if (!content) return;
+  const isHidden = content.classList.contains("hidden");
+  if (isHidden) {
+    content.classList.remove("hidden");
+    if (icon) icon.classList.add("rotate-180");
+  } else {
+    content.classList.add("hidden");
+    if (icon) icon.classList.remove("rotate-180");
+  }
+}
+
+// Global window registration to ensure complete interoperability
+window.openMobileMenu = openMobileMenu;
+window.closeMobileMenu = closeMobileMenu;
+window.toggleMobileMenu = toggleMobileMenu;
+window.toggleMobileAccordion = toggleMobileAccordion;
 
 
 
